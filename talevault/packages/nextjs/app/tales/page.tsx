@@ -83,7 +83,7 @@ const Tales: NextPage = () => {
           </label>
         </div>
       </div>
-      <div className="card items-center w-full  m-8 shadow-xl  p-8  dark:bg-gray-700 bg-secondary ">
+      <div className="card items-center w-full  m-12 shadow-xl  p-8  dark:bg-gray-700 bg-secondary ">
         <div className=" items-center w-full p-8 ">
           {/* <label className="input input-bordered flex items-center gap-2">
           Name
@@ -154,6 +154,11 @@ const Tales: NextPage = () => {
           </div>
           <div className="justify-center">
             <MarkDown />
+          
+          </div>
+          <div className="flex place-content-center m-auto p-2">
+            
+          <input type="submit" value="Submit" className="btn m-auto mt-2 p-auto" />
           </div>
         </div>
       </div>
