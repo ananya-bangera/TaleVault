@@ -49,6 +49,9 @@
     "node": ">=18.17.0"
   },
   "dependencies": {
-    "@uiw/react-md-editor": "^4.0.4"
+    "@lens-protocol/react-web": "^2.2.0",
+    "@tippyjs/react": "^4.2.6",
+    "@uiw/react-md-editor": "^4.0.4",
+    "react-countdown": "^2.3.5"
   }
 }

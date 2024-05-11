@@ -15,8 +15,11 @@
   },
   "dependencies": {
     "@heroicons/react": "~2.0.11",
+    "@lens-protocol/client": "alpha",
+    "@lens-protocol/wagmi": "^4.1.2",
     "@rainbow-me/rainbowkit": "~2.0.2",
     "@tanstack/react-query": "~5.28.6",
+    "@tippyjs/react": "^4.2.6",
     "@uniswap/sdk-core": "~4.0.1",
     "@uniswap/v2-sdk": "~3.0.1",
     "blo": "~1.0.1",
@@ -28,12 +31,13 @@
     "qrcode.react": "~3.1.0",
     "react": "~18.2.0",
     "react-copy-to-clipboard": "~5.1.0",
+    "react-countdown": "^2.3.5",
     "react-dom": "~18.2.0",
     "react-hot-toast": "~2.4.0",
     "use-debounce": "~8.0.4",
     "usehooks-ts": "2.13.0",
-    "viem": "2.8.16",
-    "wagmi": "2.5.12",
+    "viem": "^2.10.3",
+    "wagmi": "^2.8.5",
     "zustand": "~4.1.2"
   },
   "devDependencies": {

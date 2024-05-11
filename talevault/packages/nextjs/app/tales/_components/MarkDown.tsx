@@ -4,7 +4,7 @@ import MDEditor from '@uiw/react-md-editor';
 // import rehypeSanitize from "rehype-sanitize";
 import MarkdownPreview from '@uiw/react-markdown-preview';
 export default function MarkDown() {
-  const [value, setValue] = React.useState("**Hello world!!!**");
+  const [value, setValue] = React.useState("**Explain your POV**");
   return (
     <div className="container">
       <MDEditor

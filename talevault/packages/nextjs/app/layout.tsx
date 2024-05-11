@@ -1,9 +1,25 @@
+import { LensConfig, LensProvider, production } from "@lens-protocol/react-web";
+import { bindings } from "@lens-protocol/wagmi";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { polygon, polygonAmoy } from "wagmi/chains";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 
+const wagmiConfig = createConfig({
+  chains: [polygonAmoy, polygon],
+  transports: {
+    [polygonAmoy.id]: http(),
+    [polygon.id]: http(),
+  },
+});
+
+const lensConfig: LensConfig = {
+  bindings: bindings(wagmiConfig),
+  environment: production,
+};
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : `http://localhost:${process.env.PORT || 3000}`;
@@ -51,7 +67,13 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     <html suppressHydrationWarning>
       <body>
         <ThemeProvider enableSystem>
-          <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
+          <ScaffoldEthAppWithProviders>
+          
+            {children}
+            {/* </LensProvider> */}
+            {/* </QueryClientProvider> */}
+            {/* </WagmiProvider> */}
+          </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>
     </html>
