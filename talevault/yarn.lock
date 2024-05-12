@@ -1013,22 +1013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/blockchain-bindings@npm:0.10.0-alpha.28":
-  version: 0.10.0-alpha.28
-  resolution: "@lens-protocol/blockchain-bindings@npm:0.10.0-alpha.28"
-  dependencies:
-    "@ethersproject/abi": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/units": ^5.7.0
-    "@lens-protocol/domain": 0.11.0-alpha.27
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    ethers: ^5.7.2
-    tslib: ^2.6.2
-  checksum: dbe9c56ca4428bcadb8aaeb89f1c251c32fdadaa9ad4f980665b8c51bdb35d7bfacc819341b0a95d2ff00e77c44c95c0ec7361ceb076572e88e2a83300d47b81
-  languageName: node
-  linkType: hard
-
 "@lens-protocol/blockchain-bindings@npm:0.10.2":
   version: 0.10.2
   resolution: "@lens-protocol/blockchain-bindings@npm:0.10.2"
@@ -1045,9 +1029,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/client@npm:alpha":
-  version: 2.0.0-alpha.38
-  resolution: "@lens-protocol/client@npm:2.0.0-alpha.38"
+"@lens-protocol/client@npm:latest":
+  version: 2.2.0
+  resolution: "@lens-protocol/client@npm:2.2.0"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/abstract-signer": ^5.7.0
@@ -1057,10 +1041,10 @@ __metadata:
     "@ethersproject/hash": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/wallet": ^5.7.0
-    "@lens-protocol/blockchain-bindings": 0.10.0-alpha.28
-    "@lens-protocol/gated-content": 0.4.0-alpha.23
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    "@lens-protocol/storage": 0.8.0-alpha.11
+    "@lens-protocol/blockchain-bindings": 0.10.2
+    "@lens-protocol/gated-content": 0.5.1
+    "@lens-protocol/shared-kernel": 0.12.0
+    "@lens-protocol/storage": 0.8.1
     graphql: ^16.8.1
     graphql-request: ^6.1.0
     graphql-tag: ^2.12.6
@@ -1072,34 +1056,7 @@ __metadata:
   peerDependenciesMeta:
     "@lens-protocol/metadata":
       optional: true
-  checksum: a3f47daa0a76d26cc516e04cba355a68f5f30f8feba84b26065ec9de9ee035394457eeb8a5f30fdb49b439014641d9a3a068a7cd36a6bec15e6a2844b60e4ff1
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/domain@npm:0.11.0-alpha.27":
-  version: 0.11.0-alpha.27
-  resolution: "@lens-protocol/domain@npm:0.11.0-alpha.27"
-  dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    tslib: ^2.6.2
-  peerDependencies:
-    "@faker-js/faker": ^7.6.0
-    "@jest/globals": ^29.7.0
-    jest-mock-extended: ^3.0.5
-    jest-when: ^3.6.0
-    wait-for-expect: ^3.0.2
-  peerDependenciesMeta:
-    "@faker-js/faker":
-      optional: true
-    "@jest/globals":
-      optional: true
-    jest-mock-extended:
-      optional: true
-    jest-when:
-      optional: true
-    wait-for-expect:
-      optional: true
-  checksum: d23b59785b2027a433204164b943b25ce13a0be6bb494716749cf454214936893292cce060a4edda70c8930476345143259dc05ad1afd3e172db43c3fa67b1ae
+  checksum: a732820397472783888211519154b341852b26e46a4ab03b72a317fe71b9a1817feb3b7b18418cdface3bc55d3f669d121b53f7edb100b441310b1d6371a725e
   languageName: node
   linkType: hard
 
@@ -1130,12 +1087,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/gated-content@npm:0.4.0-alpha.23":
-  version: 0.4.0-alpha.23
-  resolution: "@lens-protocol/gated-content@npm:0.4.0-alpha.23"
+"@lens-protocol/gated-content@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@lens-protocol/gated-content@npm:0.5.1"
   dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    "@lens-protocol/storage": 0.8.0-alpha.11
+    "@lens-protocol/shared-kernel": 0.12.0
+    "@lens-protocol/storage": 0.8.1
     "@lit-protocol/constants": 2.1.62
     "@lit-protocol/crypto": 2.1.62
     "@lit-protocol/encryption": 2.1.62
@@ -1153,7 +1110,7 @@ __metadata:
     "@ethersproject/wallet": ^5.7.0
     "@lens-protocol/metadata": ^1.0.0
     zod: ^3.22.0
-  checksum: f839c03b3a7721a98aabeca785a7ca1d9047d6fb7dfbb063b988c60f63b046866b9ec7e49d9226ebf2f9f0e3b9225019f0ac48beb7ed236ac7f14e1673463841
+  checksum: 84f2dea7ce8b85bc1197a09ae77ed0d68ed043ff83c3475d37aec2dba97936e069992f22eeb8163555ddb0701707245a62bde41a9aa48dfc54d9f9a5ad409aca
   languageName: node
   linkType: hard
 
@@ -1232,19 +1189,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/shared-kernel@npm:0.11.0-alpha.12":
-  version: 0.11.0-alpha.12
-  resolution: "@lens-protocol/shared-kernel@npm:0.11.0-alpha.12"
-  dependencies:
-    "@ethersproject/address": ^5.7.0
-    decimal.js: ^10.4.3
-    lodash: ^4.17.21
-    traverse: ^0.6.7
-    tslib: ^2.6.2
-  checksum: 454195ec5f584dc6695f7c3dd05d0d404c1c469560a4ce9a1f2fc2c682fae0876d44a7b44592608d1c77b8097b7519c65e128a1eadce27c945d8b0d361a6ca75
-  languageName: node
-  linkType: hard
-
 "@lens-protocol/shared-kernel@npm:0.12.0":
   version: 0.12.0
   resolution: "@lens-protocol/shared-kernel@npm:0.12.0"
@@ -1255,17 +1199,6 @@ __metadata:
     traverse: ^0.6.7
     tslib: ^2.6.2
   checksum: 9eab4e50bb34bd1b8742baf0110deb80ca6fcd437be1207a7d5dbd5b5e177c723e166625358ce71b494c825c5deb96abceff4de3520c780a2cf98bcf380db953
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/storage@npm:0.8.0-alpha.11":
-  version: 0.8.0-alpha.11
-  resolution: "@lens-protocol/storage@npm:0.8.0-alpha.11"
-  dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    tslib: ^2.6.2
-    zod: ^3.22.4
-  checksum: e2e7a64ad784e897d01eefe71491ffb1da68bd59f1c9caae7676a248b3cd034ca0d345816d1ce361be7dfce9ad10c6ba389338688c548f64c65bf54be55af34c
   languageName: node
   linkType: hard
 
@@ -2693,7 +2626,7 @@ __metadata:
   resolution: "@se-2/nextjs@workspace:packages/nextjs"
   dependencies:
     "@heroicons/react": ~2.0.11
-    "@lens-protocol/client": alpha
+    "@lens-protocol/client": latest
     "@lens-protocol/wagmi": ^4.1.2
     "@rainbow-me/rainbowkit": ~2.0.2
     "@tanstack/react-query": ~5.28.6

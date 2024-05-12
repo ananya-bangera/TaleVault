@@ -4,20 +4,12 @@ import React from "react";
 import { LensClient, Wallet, development, isRelaySuccess } from "@lens-protocol/client";
 import { useAccount } from "wagmi";
 
-
 export default function Test() {
   const account = useAccount();
   async function getProfile() {
     var handle = "ananya";
     const lensClient = new LensClient({
       environment: development,
-      
-      headers: {
-        'user-agent': "spectaql",
-        // userAgent: "spectaql",
-      //   "Access-Control-Allow-Credentials": "true",
-      //   'Access-Control-Allow-Origin': '*'
-      },
     });
     const profileCreateResult = await lensClient.wallet.createProfileWithHandle({
       handle: handle,
