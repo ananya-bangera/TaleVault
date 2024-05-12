@@ -846,7 +846,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-typed-document-node/core@npm:^3.1.1, @graphql-typed-document-node/core@npm:^3.2.0":
+"@graphql-typed-document-node/core@npm:^3.1.1":
   version: 3.2.0
   resolution: "@graphql-typed-document-node/core@npm:3.2.0"
   peerDependencies:
@@ -1013,22 +1013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/blockchain-bindings@npm:0.10.0-alpha.28":
-  version: 0.10.0-alpha.28
-  resolution: "@lens-protocol/blockchain-bindings@npm:0.10.0-alpha.28"
-  dependencies:
-    "@ethersproject/abi": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/units": ^5.7.0
-    "@lens-protocol/domain": 0.11.0-alpha.27
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    ethers: ^5.7.2
-    tslib: ^2.6.2
-  checksum: dbe9c56ca4428bcadb8aaeb89f1c251c32fdadaa9ad4f980665b8c51bdb35d7bfacc819341b0a95d2ff00e77c44c95c0ec7361ceb076572e88e2a83300d47b81
-  languageName: node
-  linkType: hard
-
 "@lens-protocol/blockchain-bindings@npm:0.10.2":
   version: 0.10.2
   resolution: "@lens-protocol/blockchain-bindings@npm:0.10.2"
@@ -1042,64 +1026,6 @@ __metadata:
     ethers: ^5.7.2
     tslib: ^2.6.2
   checksum: d294f13f9f89a2fd938cff01e046648ed5bcb7c6abab42aa618e29154b1d6f3e47f10f46fa618bb234446097ad294b34ca7cec0332bf014806a56920211d94d8
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/client@npm:alpha":
-  version: 2.0.0-alpha.38
-  resolution: "@lens-protocol/client@npm:2.0.0-alpha.38"
-  dependencies:
-    "@ethersproject/abi": ^5.7.0
-    "@ethersproject/abstract-signer": ^5.7.0
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/bignumber": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/hash": ^5.7.0
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/wallet": ^5.7.0
-    "@lens-protocol/blockchain-bindings": 0.10.0-alpha.28
-    "@lens-protocol/gated-content": 0.4.0-alpha.23
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    "@lens-protocol/storage": 0.8.0-alpha.11
-    graphql: ^16.8.1
-    graphql-request: ^6.1.0
-    graphql-tag: ^2.12.6
-    jwt-decode: ^3.1.2
-    tslib: ^2.6.2
-    zod: ^3.22.4
-  peerDependencies:
-    "@lens-protocol/metadata": ^1.0.0
-  peerDependenciesMeta:
-    "@lens-protocol/metadata":
-      optional: true
-  checksum: a3f47daa0a76d26cc516e04cba355a68f5f30f8feba84b26065ec9de9ee035394457eeb8a5f30fdb49b439014641d9a3a068a7cd36a6bec15e6a2844b60e4ff1
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/domain@npm:0.11.0-alpha.27":
-  version: 0.11.0-alpha.27
-  resolution: "@lens-protocol/domain@npm:0.11.0-alpha.27"
-  dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    tslib: ^2.6.2
-  peerDependencies:
-    "@faker-js/faker": ^7.6.0
-    "@jest/globals": ^29.7.0
-    jest-mock-extended: ^3.0.5
-    jest-when: ^3.6.0
-    wait-for-expect: ^3.0.2
-  peerDependenciesMeta:
-    "@faker-js/faker":
-      optional: true
-    "@jest/globals":
-      optional: true
-    jest-mock-extended:
-      optional: true
-    jest-when:
-      optional: true
-    wait-for-expect:
-      optional: true
-  checksum: d23b59785b2027a433204164b943b25ce13a0be6bb494716749cf454214936893292cce060a4edda70c8930476345143259dc05ad1afd3e172db43c3fa67b1ae
   languageName: node
   linkType: hard
 
@@ -1127,33 +1053,6 @@ __metadata:
     wait-for-expect:
       optional: true
   checksum: 27a2dee71c4da9a8c94399340b4319385bb2339f545344249ed9293f090136920f2adff0d2a9e53174b1cdb3a664a6b2fb8fffca21e7ff2700c918ba60cbbf7e
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/gated-content@npm:0.4.0-alpha.23":
-  version: 0.4.0-alpha.23
-  resolution: "@lens-protocol/gated-content@npm:0.4.0-alpha.23"
-  dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    "@lens-protocol/storage": 0.8.0-alpha.11
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/crypto": 2.1.62
-    "@lit-protocol/encryption": 2.1.62
-    "@lit-protocol/node-client": ^2.1.62
-    "@lit-protocol/types": 2.1.62
-    siwe: ^2.1.4
-    tslib: ^2.6.2
-  peerDependencies:
-    "@ethersproject/abi": ^5.7.0
-    "@ethersproject/address": ^5.7.0
-    "@ethersproject/bignumber": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
-    "@ethersproject/hash": ^5.7.0
-    "@ethersproject/providers": ^5.7.2
-    "@ethersproject/wallet": ^5.7.0
-    "@lens-protocol/metadata": ^1.0.0
-    zod: ^3.22.0
-  checksum: f839c03b3a7721a98aabeca785a7ca1d9047d6fb7dfbb063b988c60f63b046866b9ec7e49d9226ebf2f9f0e3b9225019f0ac48beb7ed236ac7f14e1673463841
   languageName: node
   linkType: hard
 
@@ -1232,19 +1131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/shared-kernel@npm:0.11.0-alpha.12":
-  version: 0.11.0-alpha.12
-  resolution: "@lens-protocol/shared-kernel@npm:0.11.0-alpha.12"
-  dependencies:
-    "@ethersproject/address": ^5.7.0
-    decimal.js: ^10.4.3
-    lodash: ^4.17.21
-    traverse: ^0.6.7
-    tslib: ^2.6.2
-  checksum: 454195ec5f584dc6695f7c3dd05d0d404c1c469560a4ce9a1f2fc2c682fae0876d44a7b44592608d1c77b8097b7519c65e128a1eadce27c945d8b0d361a6ca75
-  languageName: node
-  linkType: hard
-
 "@lens-protocol/shared-kernel@npm:0.12.0":
   version: 0.12.0
   resolution: "@lens-protocol/shared-kernel@npm:0.12.0"
@@ -1255,17 +1141,6 @@ __metadata:
     traverse: ^0.6.7
     tslib: ^2.6.2
   checksum: 9eab4e50bb34bd1b8742baf0110deb80ca6fcd437be1207a7d5dbd5b5e177c723e166625358ce71b494c825c5deb96abceff4de3520c780a2cf98bcf380db953
-  languageName: node
-  linkType: hard
-
-"@lens-protocol/storage@npm:0.8.0-alpha.11":
-  version: 0.8.0-alpha.11
-  resolution: "@lens-protocol/storage@npm:0.8.0-alpha.11"
-  dependencies:
-    "@lens-protocol/shared-kernel": 0.11.0-alpha.12
-    tslib: ^2.6.2
-    zod: ^3.22.4
-  checksum: e2e7a64ad784e897d01eefe71491ffb1da68bd59f1c9caae7676a248b3cd034ca0d345816d1ce361be7dfce9ad10c6ba389338688c548f64c65bf54be55af34c
   languageName: node
   linkType: hard
 
@@ -1299,185 +1174,6 @@ __metadata:
   version: 1.2.0
   resolution: "@lit-labs/ssr-dom-shim@npm:1.2.0"
   checksum: 704621c28df8d651e54a1b93f6ede8103db2dd3e7a1f02463fe5492bd28aa22de813314c7833260204fed5c8491a6bbd763f6051abc25690df537d812a508c35
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/access-control-conditions@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/access-control-conditions@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    ethers: ^5.7.1
-    tslib: ^2.3.0
-  checksum: 3e91c020f8f0820cbc777b5d26e7dce39324e728044125a9d06dc0bed123ee85d4c306b08181475f5854c372e68de90a2199ddde986a1a20571064579339741c
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/auth-browser@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/auth-browser@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/misc-browser": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    "@walletconnect/ethereum-provider": ^2.1.2
-    ethers: ^5.7.1
-    lit-connect-modal: ^0.1.11
-    lit-siwe: ^1.1.8
-    tslib: ^2.3.0
-    tweetnacl: ^1.0.3
-    tweetnacl-util: ^0.13.3
-    util: ^0.12.4
-    web-vitals: ^3.0.4
-  checksum: 78091d1ffd9fd93329d28f833bdc98a08217b41d5fd3f943ee8518f010ed5d9433a285a074ed0a8d417bf418a019dbb9d7d2d051689c3ab347b6d777d1e3b045
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/bls-sdk@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/bls-sdk@npm:2.1.62"
-  checksum: 887012e73abd2bb6f3b9d699445efd3864561701e399de43e166896775bedea8ef83c9a24517ffef9f6f45aac9ebc1dd6f0eb3b4c5a14bb6a4b46d8a2d841f8a
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/constants@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/constants@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/types": 2.1.62
-    tslib: ^2.3.0
-  checksum: 81612fd76610039b482b308e504bf6538f0888f217077de6a6c622920dfc8783c3d96cdf88d4392d0b2aa7b95556764504fb8f56018b4eb68ff2ab45bbffd5d2
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/crypto@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/crypto@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/bls-sdk": 2.1.62
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/ecdsa-sdk": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/nacl": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    ethers: ^5.7.1
-    tslib: ^2.3.0
-  checksum: 56704a7b174c6cf3d4674c650d923412f7f859db2828312d794f9dfbd823ee0cc098b35b4ccbd34935a0f2528f2eb945cac799f5a49c7a02d5c0fd42a3bcf173
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/ecdsa-sdk@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/ecdsa-sdk@npm:2.1.62"
-  checksum: c96b496209da16162b7ae1748466317e9e2d66c04ee381fbb7e8838fa583d0642474643c561432d30c01b2dfdce519584aba719b42883ecc57cf733d89a73a38
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/encryption@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/encryption@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/bls-sdk": 2.1.62
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/crypto": 2.1.62
-    "@lit-protocol/ecdsa-sdk": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/nacl": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    ethers: ^5.7.1
-    jszip: ^3.10.1
-    tslib: ^2.3.0
-  checksum: dc8ea59778df950ee58c6aed989cb77a138856dcc8de19f80d6c604a57b0216a76b7de85e45d971083350ff77742e5ae6b8f7e30058f6f43aa5cfe8ee7959cf3
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/lit-third-party-libs@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/lit-third-party-libs@npm:2.1.62"
-  checksum: 889f093be1055a48af4b34a8bd886df169a52a859191a8650ef82725a5444503ba4ac37723153fbf9df7f4f396f92c77bdf5095bee272e1eaef6d3f2a8dd865e
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/misc-browser@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/misc-browser@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    ethers: ^5.7.1
-    tslib: ^2.3.0
-  checksum: abcdbe4614e0ad2c479470e291d0cda31533014382a21e4758acc1c1e742171220e8ffd902c7d236649d7ca848ccb40adf3b4410f819025dbfcb3f48f08108ae
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/misc@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/misc@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    tslib: ^2.3.0
-  checksum: 54dc56551f3b241dd260e93ab6ec09fcdf489cad4686f6f3b2a49593428bb6bf99f682a496f2cd5affaa64541f6739dc52d337f81e3c081acf84089826c58729
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/nacl@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/nacl@npm:2.1.62"
-  checksum: d8b99d20bc0f637b64a274fc9b727655d82865dedb13cc4ed5c7dcaba093a7d1e3d140d13b636188ff807401d64d3e87188eda423de088b47dabe4d25c2cd788
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/node-client@npm:^2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/node-client@npm:2.1.62"
-  dependencies:
-    "@lit-protocol/access-control-conditions": 2.1.62
-    "@lit-protocol/auth-browser": 2.1.62
-    "@lit-protocol/bls-sdk": 2.1.62
-    "@lit-protocol/constants": 2.1.62
-    "@lit-protocol/crypto": 2.1.62
-    "@lit-protocol/ecdsa-sdk": 2.1.62
-    "@lit-protocol/encryption": 2.1.62
-    "@lit-protocol/lit-third-party-libs": 2.1.62
-    "@lit-protocol/misc": 2.1.62
-    "@lit-protocol/misc-browser": 2.1.62
-    "@lit-protocol/nacl": 2.1.62
-    "@lit-protocol/types": 2.1.62
-    "@lit-protocol/uint8arrays": 2.1.62
-    "@walletconnect/ethereum-provider": ^2.4.7
-    ethers: ^5.7.1
-    jszip: ^3.10.1
-    lit-connect-modal: ^0.1.11
-    lit-siwe: ^1.1.8
-    node-fetch: ^2.6.1
-    tslib: ^2.3.0
-    tweetnacl: ^1.0.3
-    tweetnacl-util: ^0.15.1
-  checksum: e04e9e33006026e951721c7a6d9871bacee4a9a077c610acd4f50445a0462a378f77093956439d189e2db4cc102a7aaae6a0d335158ab173d571dc7391a25950
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/types@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/types@npm:2.1.62"
-  checksum: 4906c240ad455673e50c46f9ebf4ec51fd18a7ab8cfb5132d226e10af7e1eec69542927488cf2b20bae261b25e2f35768288aa53ea791d62736ea6527c8005db
-  languageName: node
-  linkType: hard
-
-"@lit-protocol/uint8arrays@npm:2.1.62":
-  version: 2.1.62
-  resolution: "@lit-protocol/uint8arrays@npm:2.1.62"
-  checksum: e8b2a43e08d6d3e4522a3e0d816d5993584826fb197aae94ecf2c317b0efc0b6ec581f4206173fa2f6a7d5c14c5e66291e3021b3f4062071dca0cb69509bd893
   languageName: node
   linkType: hard
 
@@ -1937,7 +1633,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.1.2, @noble/hashes@npm:^1.3.1, @noble/hashes@npm:^1.4.0":
+"@noble/hashes@npm:^1.3.1, @noble/hashes@npm:^1.4.0":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
   checksum: 8ba816ae26c90764b8c42493eea383716396096c5f7ba6bea559993194f49d80a73c081f315f4c367e51bd2d5891700bcdfa816b421d24ab45b41cb03e4f3342
@@ -2693,7 +2389,6 @@ __metadata:
   resolution: "@se-2/nextjs@workspace:packages/nextjs"
   dependencies:
     "@heroicons/react": ~2.0.11
-    "@lens-protocol/client": alpha
     "@lens-protocol/wagmi": ^4.1.2
     "@rainbow-me/rainbowkit": ~2.0.2
     "@tanstack/react-query": ~5.28.6
@@ -2847,27 +2542,6 @@ __metadata:
   version: 0.18.0
   resolution: "@solidity-parser/parser@npm:0.18.0"
   checksum: 970d991529d632862fa88e107531339d84df35bf0374e31e8215ce301b19a01ede33fccf4d374402649814263f8bc278a8e6d62a0129bb877539fbdd16a604cc
-  languageName: node
-  linkType: hard
-
-"@spruceid/siwe-parser@npm:1.1.3":
-  version: 1.1.3
-  resolution: "@spruceid/siwe-parser@npm:1.1.3"
-  dependencies:
-    apg-js: ^4.1.1
-  checksum: 708786ba2f10987c45c1fd8a6243ba6572ee7f320531616d71ff66044828bc24af66f5537ce09c9272bdae93fcc35b566a7804fe7997284f2ee5445a36e6add2
-  languageName: node
-  linkType: hard
-
-"@spruceid/siwe-parser@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@spruceid/siwe-parser@npm:2.1.2"
-  dependencies:
-    "@noble/hashes": ^1.1.2
-    apg-js: ^4.3.0
-    uri-js: ^4.4.1
-    valid-url: ^1.0.9
-  checksum: feb0806ed3da945192245e6ac20108a1e4ef79184a04967bf251307e7315ca824862b016bd8e2100a739e8ee76ef768f088314601adbf3e847bb7692fcb33ac0
   languageName: node
   linkType: hard
 
@@ -4270,7 +3944,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/ethereum-provider@npm:2.13.0, @walletconnect/ethereum-provider@npm:^2.1.2, @walletconnect/ethereum-provider@npm:^2.4.7":
+"@walletconnect/ethereum-provider@npm:2.13.0":
   version: 2.13.0
   resolution: "@walletconnect/ethereum-provider@npm:2.13.0"
   dependencies:
@@ -5121,13 +4795,6 @@ __metadata:
     normalize-path: ^3.0.0
     picomatch: ^2.0.4
   checksum: 3e044fd6d1d26545f235a9fe4d7a534e2029d8e59fa7fd9f2a6eb21230f6b5380ea1eaf55136e60cbf8e613544b3b766e7a6fa2102e2a3a117505466e3025dc2
-  languageName: node
-  linkType: hard
-
-"apg-js@npm:^4.1.1, apg-js@npm:^4.3.0":
-  version: 4.4.0
-  resolution: "apg-js@npm:4.4.0"
-  checksum: 81f9753ef8ec102d6ec7ceddd57a5aee2e7e238ac5877165f9ac6cb5cb8ec73ec5070e040d3af04822bc0de754699b0199c39159ed0d8453d6bb99812a326deb
   languageName: node
   linkType: hard
 
@@ -6529,7 +6196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:^3.1.4, cross-fetch@npm:^3.1.5":
+"cross-fetch@npm:^3.1.4":
   version: 3.1.8
   resolution: "cross-fetch@npm:3.1.8"
   dependencies:
@@ -9222,18 +8889,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-request@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "graphql-request@npm:6.1.0"
-  dependencies:
-    "@graphql-typed-document-node/core": ^3.2.0
-    cross-fetch: ^3.1.5
-  peerDependencies:
-    graphql: 14 - 16
-  checksum: 6d62630a0169574442320651c1f7626c0c602025c3c46b19e09417c9579bb209306ee63de9793a03be2e1701bb7f13971f8545d99bc6573e340f823af0ad35b2
-  languageName: node
-  linkType: hard
-
 "graphql-tag@npm:^2.12.6":
   version: 2.12.6
   resolution: "graphql-tag@npm:2.12.6"
@@ -9972,13 +9627,6 @@ __metadata:
   version: 5.3.1
   resolution: "ignore@npm:5.3.1"
   checksum: 71d7bb4c1dbe020f915fd881108cbe85a0db3d636a0ea3ba911393c53946711d13a9b1143c7e70db06d571a5822c0a324a6bcde5c9904e7ca5047f01f1bf8cd3
-  languageName: node
-  linkType: hard
-
-"immediate@npm:~3.0.5":
-  version: 3.0.6
-  resolution: "immediate@npm:3.0.6"
-  checksum: f9b3486477555997657f70318cc8d3416159f208bec4cca3ff3442fd266bc23f50f0c9bd8547e1371a6b5e82b821ec9a7044a4f7b944798b25aa3cc6d5e63e62
   languageName: node
   linkType: hard
 
@@ -10873,18 +10521,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jszip@npm:^3.10.1":
-  version: 3.10.1
-  resolution: "jszip@npm:3.10.1"
-  dependencies:
-    lie: ~3.3.0
-    pako: ~1.0.2
-    readable-stream: ~2.3.6
-    setimmediate: ^1.0.5
-  checksum: abc77bfbe33e691d4d1ac9c74c8851b5761fba6a6986630864f98d876f3fcc2d36817dfc183779f32c00157b5d53a016796677298272a714ae096dfe6b1c8b60
-  languageName: node
-  linkType: hard
-
 "jwt-decode@npm:^3.1.2":
   version: 3.1.2
   resolution: "jwt-decode@npm:3.1.2"
@@ -11003,15 +10639,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lie@npm:~3.3.0":
-  version: 3.3.0
-  resolution: "lie@npm:3.3.0"
-  dependencies:
-    immediate: ~3.0.5
-  checksum: 33102302cf19766f97919a6a98d481e01393288b17a6aa1f030a3542031df42736edde8dab29ffdbf90bebeffc48c761eb1d064dc77592ca3ba3556f9fe6d2a8
-  languageName: node
-  linkType: hard
-
 "lilconfig@npm:2.1.0, lilconfig@npm:^2.1.0":
   version: 2.1.0
   resolution: "lilconfig@npm:2.1.0"
@@ -11106,15 +10733,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-connect-modal@npm:^0.1.11":
-  version: 0.1.11
-  resolution: "lit-connect-modal@npm:0.1.11"
-  dependencies:
-    micromodal: ^0.4.10
-  checksum: 18ba05159cae36ddefe80dede62bd73b8b854eb965beb62cb4f7291b053931e19e9c0786df376614aa9fd78e943cea66d5ced2ffbe4c8681f0b7c1bd8450e6b8
-  languageName: node
-  linkType: hard
-
 "lit-element@npm:^3.3.0":
   version: 3.3.3
   resolution: "lit-element@npm:3.3.3"
@@ -11132,22 +10750,6 @@ __metadata:
   dependencies:
     "@types/trusted-types": ^2.0.2
   checksum: 2d70df07248bcb2f502a3afb1e91d260735024fa669669ffb1417575aa39c3092779725ac1b90f5f39e4ce78c63f431f51176bc67f532389f0285a6991573255
-  languageName: node
-  linkType: hard
-
-"lit-siwe@npm:^1.1.8":
-  version: 1.1.8
-  resolution: "lit-siwe@npm:1.1.8"
-  dependencies:
-    "@spruceid/siwe-parser": 1.1.3
-    "@stablelib/random": ^1.0.1
-    apg-js: ^4.1.1
-  peerDependencies:
-    "@ethersproject/contracts": ^5.2.0
-    "@ethersproject/hash": ^5.4.0
-    "@ethersproject/providers": ^5.2.0
-    "@ethersproject/wallet": ^5.2.0
-  checksum: 70c064eb4c90c11103067e0df9d4c18b353b1e728860d57a33c5dd6bd4336459c20b2850cc0dd738e2049c71663e52348992dda0696466fca5e5f68483d8e739
   languageName: node
   linkType: hard
 
@@ -12009,13 +11611,6 @@ __metadata:
     braces: ^3.0.2
     picomatch: ^2.3.1
   checksum: 02a17b671c06e8fefeeb6ef996119c1e597c942e632a21ef589154f23898c9c6a9858526246abb14f8bca6e77734aa9dcf65476fca47cedfb80d9577d52843fc
-  languageName: node
-  linkType: hard
-
-"micromodal@npm:^0.4.10":
-  version: 0.4.10
-  resolution: "micromodal@npm:0.4.10"
-  checksum: b939922daa8cf5114d3e444bf5e3ef5cb0684386ee97873741d4b61c28aa365a05eb20d401d15c7454d5c012986d0593a456af084a10e95b7a5a3c57e1ae3099
   languageName: node
   linkType: hard
 
@@ -13094,13 +12689,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pako@npm:~1.0.2":
-  version: 1.0.11
-  resolution: "pako@npm:1.0.11"
-  checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
-  languageName: node
-  linkType: hard
-
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -13965,7 +13553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^2.2.2, readable-stream@npm:^2.3.3, readable-stream@npm:~2.3.6":
+"readable-stream@npm:^2.2.2, readable-stream@npm:^2.3.3":
   version: 2.3.8
   resolution: "readable-stream@npm:2.3.8"
   dependencies:
@@ -14943,20 +14531,6 @@ __metadata:
   version: 4.1.0
   resolution: "signal-exit@npm:4.1.0"
   checksum: 64c757b498cb8629ffa5f75485340594d2f8189e9b08700e69199069c8e3070fb3e255f7ab873c05dc0b3cec412aea7402e10a5990cb6a050bd33ba062a6c549
-  languageName: node
-  linkType: hard
-
-"siwe@npm:^2.1.4":
-  version: 2.3.2
-  resolution: "siwe@npm:2.3.2"
-  dependencies:
-    "@spruceid/siwe-parser": ^2.1.2
-    "@stablelib/random": ^1.0.1
-    uri-js: ^4.4.1
-    valid-url: ^1.0.9
-  peerDependencies:
-    ethers: ^5.6.8 || ^6.0.8
-  checksum: f49356ceaf2dff256cb5379a41cd75461dcd67cc478e0f3338943aa094d4d92d35b8295e6a987afbd16fdb6c870ffb4d43adf9ff79085aaddab58084df8f188c
   languageName: node
   linkType: hard
 
@@ -16104,13 +15678,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tweetnacl-util@npm:^0.13.3":
-  version: 0.13.5
-  resolution: "tweetnacl-util@npm:0.13.5"
-  checksum: 014293298eea9e6329c4853f8ebe95aaa12a9e919292589bb02046542610e6e04265efecc7ff0ccf64c0bebcd224dc21e6b4af31f36e5a18b854c2ad26f849a4
-  languageName: node
-  linkType: hard
-
 "tweetnacl-util@npm:^0.15.1":
   version: 0.15.1
   resolution: "tweetnacl-util@npm:0.15.1"
@@ -16795,13 +16362,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"valid-url@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "valid-url@npm:1.0.9"
-  checksum: 3ecb030559404441c2cf104cbabab8770efb0f36d117db03d1081052ef133015a68806148ce954bb4dd0b5c42c14b709a88783c93d66b0916cb67ba771c98702
-  languageName: node
-  linkType: hard
-
 "valtio@npm:1.11.2":
   version: 1.11.2
   resolution: "valtio@npm:1.11.2"
@@ -16987,13 +16547,6 @@ __metadata:
   version: 0.2.4
   resolution: "web-vitals@npm:0.2.4"
   checksum: 128a4e87730b0a02fb6af3eef7d31f9a79b4646e83cfe4465aa8ce6054fe16f7b1f4125a384f1b4f039091bd9513cb54b4e559c0b10ae953c01900786a16b1c2
-  languageName: node
-  linkType: hard
-
-"web-vitals@npm:^3.0.4":
-  version: 3.5.2
-  resolution: "web-vitals@npm:3.5.2"
-  checksum: 4c208bb9384073c772055e9265a4cad4560dbbaeb111ec615ee23e71bbb952aacdf4e6bb8ffbfbe02b23540ac4f08d569d49fc0cd1e5d29c6c0ced566965320a
   languageName: node
   linkType: hard
 
