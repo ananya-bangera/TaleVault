@@ -1,35 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { development, LensProvider } from "@lens-protocol/react-web";
+import { LensProvider, development } from "@lens-protocol/react-web";
+import { LensConfig } from "@lens-protocol/react-web";
+import { bindings } from "@lens-protocol/wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { sepolia, polygonAmoy } from "wagmi/chains";
+import { avalancheFuji, polygonAmoy, sepolia } from "wagmi/chains";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
-import { LensConfig } from '@lens-protocol/react-web';
-import { bindings } from '@lens-protocol/wagmi';
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
   const queryClient = new QueryClient();
 
   const wagmiConfig = createConfig({
-    chains: [polygonAmoy, sepolia],
+    chains: [polygonAmoy, sepolia, avalancheFuji],
     transports: {
       [polygonAmoy.id]: http(),
       [sepolia.id]: http(),
+      [avalancheFuji.id]: http(),
     },
-  });const lensConfig: LensConfig = {
+  });
+  const lensConfig: LensConfig = {
     bindings: bindings(wagmiConfig),
     environment: development,
   };
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <LensProvider config={lensConfig}>      
+        <LensProvider config={lensConfig}>
           <div className="flex items-center flex-col flex-grow pt-10">
             <div className="px-5">
               <h1 className="text-center">

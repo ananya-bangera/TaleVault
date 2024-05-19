@@ -12,7 +12,7 @@ import { setEnvironmentData } from "worker_threads";
 export default function Test() {
   const account = useAccount();
   let handle = "";
-  let profile_id = "0x0202";
+  let profile_id = "0x0242";
   const lensClient = new LensClient({
     environment: development,
   });
@@ -177,16 +177,15 @@ export default function Test() {
       attributes: [],
       locale: "en-US",
       appId: "lensblog",
-      image: imageUri,
+      video: imageUri,
       imageMimeType: imageType,
-      tags:["tag1","tag2","tag3"]
+      tags: ["tag1", "tag2", "tag3"],
     };
   };
-  async function getContentURI(content: any, contentName: any, imageUri: any, imageType: any){
-    let fullContentURI ="";
+  async function getContentURI(content: any, contentName: any, imageUri: any, imageType: any) {
+    let fullContentURI = "";
 
     const contentMetadata = createContentMetadata(content, contentName, imageUri, imageType);
-
 
     const BASE_64_PREFIX = "data:application/json;base64,";
     if (pinataApiSecret && pinataApiKey) {
@@ -206,8 +205,8 @@ export default function Test() {
       var content = "content Ananya";
       var contentName = "contentName Ananya";
       var imageUri = "ipfs://QmZ1A9npSQvV72nYy9UJb2K42J4U7P9HXM1moW6R2L5sLG";
-      var imageType = "image/png";
-      var fullContentURI = await getContentURI(content, contentName, imageUri, imageType);  
+      var imageType = "video/mpv4";
+      var fullContentURI = await getContentURI(content, contentName, imageUri, imageType);
 
       const result = await lensClient.publication.postOnchain({
         contentURI: fullContentURI, // or arweave
@@ -277,13 +276,13 @@ export default function Test() {
       var contentName = "Comment Message";
       var imageUri = "";
       var imageType = "";
-      var fullContentURI = await getContentURI(content, contentName, imageUri, imageType);  
+      var fullContentURI = await getContentURI(content, contentName, imageUri, imageType);
 
       const result = await lensClient.publication.commentOnchain({
-        commentOn: '0x0202-0x0d',
+        commentOn: "0x0202-0x0d",
         contentURI: fullContentURI, // or arweave
       });
-      
+
       console.log(result);
       const resultValue = result.unwrap();
       //d4727e1e-4abb-4ade-842e-4eac1391a9ef
@@ -291,22 +290,21 @@ export default function Test() {
         console.log(`Something went wrong`, resultValue);
         return;
       }
-      
+
       console.log(`Transaction was successfully broadcasted with txId ${resultValue.txId}`);
     }
-   }
-   async function createMirror(){
+  }
+  async function createMirror() {
     const result = await lensClient.publication.mirrorOnchain({
-      mirrorOn: '0x0202-0x0d',
+      mirrorOn: "0x0202-0x0d",
     });
     console.log(result);
-   }
+  }
   async function getTags() {
-
     const result = await lensClient.publication.tags();
     console.log(result);
   }
- const [data,setData]=React.useState("")
+  const [data, setData] = React.useState("");
   return (
     <div>
       <button className="btn" onClick={() => getProfile()}>
@@ -339,7 +337,11 @@ export default function Test() {
       <button className="btn" onClick={() => createPost()}>
         createPost
       </button>
-      <input onChange={(e)=>{setData(e.target.value)}}></input>
+      <input
+        onChange={e => {
+          setData(e.target.value);
+        }}
+      ></input>
       <button className="btn" onClick={() => checkPublications()}>
         checkPublications
       </button>
@@ -350,13 +352,13 @@ export default function Test() {
         createMetadata
       </button>
       <button className="btn" onClick={() => getTags()}>
-      getTags
+        getTags
       </button>
       <button className="btn" onClick={() => addComment()}>
-      addComment
+        addComment
       </button>
       <button className="btn" onClick={() => createMirror()}>
-      createMirror
+        createMirror
       </button>
     </div>
   );

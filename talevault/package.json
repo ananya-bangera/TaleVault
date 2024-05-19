@@ -50,6 +50,8 @@
     "node": ">=18.17.0"
   },
   "dependencies": {
+    "@chainlink/contracts": "^1.1.0",
+    "@chainlink/contracts-ccip": "^1.4.0",
     "@lens-protocol/react-web": "^2.2.0",
     "@tippyjs/react": "^4.2.6",
     "@uiw/react-md-editor": "^4.0.4",

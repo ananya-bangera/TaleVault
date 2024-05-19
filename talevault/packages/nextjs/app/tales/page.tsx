@@ -8,8 +8,9 @@ import { BoltIcon, LightBulbIcon, PlusIcon, TagIcon } from "@heroicons/react/24/
 import CreatePOV from "./_components/CreatePOV";
 import ViewPOV from "./_components/ViewPOV";
 
+
 const Tales: NextPage = () => {
- const [createPOV, setcreatePOV] = useState(false)
+ const [createPOV, setcreatePOV] = useState(true)
   return (
     <div className="flex flex-col items-center p-8">
       <div className="flex flex-row place-content-center">

@@ -5,15 +5,20 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
-    YourContract: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  80002: {
+    Trade: {
+      address: "0x652EF3aCf48B0000e6dfd55aAFD25BA872e6973B",
       abi: [
         {
           inputs: [
             {
               internalType: "address",
-              name: "_owner",
+              name: "_router",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_link",
               type: "address",
             },
           ],
@@ -21,44 +26,189 @@ const deployedContracts = {
           type: "constructor",
         },
         {
-          anonymous: false,
           inputs: [
             {
-              indexed: true,
+              internalType: "uint64",
+              name: "destinationChainSelector",
+              type: "uint64",
+            },
+          ],
+          name: "DestinationChainNotAllowlisted",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
-              name: "greetingSetter",
+              name: "owner",
               type: "address",
             },
             {
-              indexed: false,
-              internalType: "string",
-              name: "newGreeting",
-              type: "string",
+              internalType: "address",
+              name: "target",
+              type: "address",
             },
             {
-              indexed: false,
-              internalType: "bool",
-              name: "premium",
-              type: "bool",
-            },
-            {
-              indexed: false,
               internalType: "uint256",
               name: "value",
               type: "uint256",
             },
           ],
-          name: "GreetingChange",
+          name: "FailedToWithdrawEth",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidReceiverAddress",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "currentBalance",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "calculatedFees",
+              type: "uint256",
+            },
+          ],
+          name: "NotEnoughBalance",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NothingToWithdraw",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferRequested",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "messageId",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "uint64",
+              name: "destinationChainSelector",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "tokenAmount",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "feeToken",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "fees",
+              type: "uint256",
+            },
+          ],
+          name: "TokensTransferred",
           type: "event",
         },
         {
           inputs: [],
-          name: "greeting",
+          name: "acceptOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_destinationChainSelector",
+              type: "uint64",
+            },
+            {
+              internalType: "bool",
+              name: "allowed",
+              type: "bool",
+            },
+          ],
+          name: "allowlistDestinationChain",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          name: "allowlistedChains",
           outputs: [
             {
-              internalType: "string",
+              internalType: "bool",
               name: "",
-              type: "string",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -78,66 +228,113 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "premium",
-          outputs: [
+          inputs: [
             {
-              internalType: "bool",
-              name: "",
-              type: "bool",
+              internalType: "address",
+              name: "to",
+              type: "address",
             },
           ],
-          stateMutability: "view",
+          name: "transferOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
-              internalType: "string",
-              name: "_newGreeting",
-              type: "string",
+              internalType: "uint64",
+              name: "_destinationChainSelector",
+              type: "uint64",
             },
-          ],
-          name: "setGreeting",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "totalCounter",
-          outputs: [
+            {
+              internalType: "address",
+              name: "_receiver",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_token",
+              type: "address",
+            },
             {
               internalType: "uint256",
-              name: "",
+              name: "_amount",
               type: "uint256",
             },
           ],
-          stateMutability: "view",
+          name: "transferTokensPayLINK",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "messageId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_destinationChainSelector",
+              type: "uint64",
+            },
+            {
+              internalType: "address",
+              name: "_receiver",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_token",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+          ],
+          name: "transferTokensPayNative",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "messageId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
               internalType: "address",
-              name: "",
+              name: "_beneficiary",
               type: "address",
             },
           ],
-          name: "userGreetingCounter",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
+          name: "withdraw",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "withdraw",
+          inputs: [
+            {
+              internalType: "address",
+              name: "_beneficiary",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_token",
+              type: "address",
+            },
+          ],
+          name: "withdrawToken",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -147,7 +344,14 @@ const deployedContracts = {
           type: "receive",
         },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        acceptOwnership:
+          "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol",
+        owner:
+          "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol",
+        transferOwnership:
+          "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol",
+      },
     },
   },
 } as const;
