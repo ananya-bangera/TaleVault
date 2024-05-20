@@ -8,7 +8,7 @@ import { BoltIcon, GlobeAltIcon, TagIcon } from "@heroicons/react/24/outline";
 import { EtherInput } from "~~/components/scaffold-eth";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
-
+import {BigNumber} from "ethers";
 const genresLabels = [
   { value: "Literary Fiction", label: "Literary Fiction" },
   { value: "Historical Fiction", label: "Historical Fiction" },
@@ -128,19 +128,23 @@ export default function CreatePOV() {
   const [ethAmount, setEthAmount] = useState("");
   const [title, setTitle] = useState("");
   const {address} = useAccount();
-  const network = "Amoy";
-  const identify =  "" //uuid4();
-  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("Trade");
+  const [network, setNetwork] = useState("");
+  const [story , setStory] = useState("");
+  const identify =  Date.now().toString();
+  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("TaleTrade");
   async function handleCreatePOV() {
     try {
-      await writeYourContractAsync({
-        functionName: "transferTokensPayLINK",
-        // functionName: "allowlistDestinationChain",
-        args: ["16015286601757825753", "0xe8658Dddc779097882A0f963f2C65fACBBa51ed1","0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4" ,"1000000000000000"],
-        // args: ["16015286601757825753",true],
-        // args: [ address,  identify, "uri", title, itemType, network, story, ethAmount],
+      console.log(itemType);
+      console.log(network);
+      // await writeYourContractAsync({
+      //   functionName: "safeMint",
+      //   args: [ address,  identify, "uri", title, itemType, network, story, BigNumber.from(ethAmount).toBigInt()],
+      //   // functionName: "transferTokensPayLINK",
+      //   // functionName: "allowlistDestinationChain",
+      //   // args: ["16015286601757825753", "0xe8658Dddc779097882A0f963f2C65fACBBa51ed1","0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4" ,"1000000000000000"],
+      //   // args: ["16015286601757825753",true],
       
-      });
+      // });
     } catch (e) {
       console.error("Error setting greeting:", e);
     }
@@ -170,6 +174,7 @@ export default function CreatePOV() {
                 isSearchable={true}
                 name="genre"
                 styles={style}
+                onChange={(e)=>setItemType(e.value.toString())}
                 options={genresLabels}
               />
             </label>
@@ -184,6 +189,7 @@ export default function CreatePOV() {
                 isSearchable={true}
                 name="network"
                 styles={style}
+                onChange={(e)=>setNetwork(e.value.toString())}
                 options={networkLabels}
               />
             </label>
@@ -194,7 +200,7 @@ export default function CreatePOV() {
         </div>
 
         <div className="justify-center">
-          <MarkDown />
+          <MarkDown story={story} setStory={setStory}/>
         </div>
         <div className="flex place-content-center m-auto p-2">
           <input type="submit" value="Submit" onClick={() => handleCreatePOV()} className="btn m-auto mt-2 p-auto" />

@@ -1,20 +1,21 @@
 "use client";
+
 import React from "react";
-import MDEditor from '@uiw/react-md-editor';
 // import rehypeSanitize from "rehype-sanitize";
-import MarkdownPreview from '@uiw/react-markdown-preview';
-export default function MarkDown() {
-  const [value, setValue] = React.useState("**Explain your POV**");
+import MarkdownPreview from "@uiw/react-markdown-preview";
+import MDEditor from "@uiw/react-md-editor";
+
+export default function MarkDown({ story, setStory }: any) {
+  
   return (
     <div className="container">
       <MDEditor
-       className="rounded-full"
-        value={value}
+        className="rounded-full"
+        value={story}
         visibleDragbar={false}
-        onChange={setValue}
-        
+        onChange={setStory}
       />
-        {/* <MDEditor.Markdown source={value} /> */}
+      {/* <MDEditor.Markdown source={value} /> */}
     </div>
   );
 }

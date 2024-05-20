@@ -1,0 +1,41 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TaleTrade
+    network: polygon-amoy
+    source:
+      address: "0xd9902959cd74b14425adB69f5f51b239487f024C"
+      abi: TaleTrade
+      startBlock: 7262851
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - POVBought
+        - POVCreated
+        - Transfer
+        - VoteReputation
+      abis:
+        - name: TaleTrade
+          file: ./abis/TaleTrade.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: POVBought(indexed uint256,string,string,string,string,string,address,uint256,bool)
+          handler: handlePOVBought
+        - event: POVCreated(indexed uint256,string,string,string,string,string,address,uint256,bool)
+          handler: handlePOVCreated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: VoteReputation(uint256,address)
+          handler: handleVoteReputation
+      file: ./src/tale-trade.ts

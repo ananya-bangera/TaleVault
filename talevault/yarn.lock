@@ -1558,7 +1558,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lens-protocol/client@latest":
+"@lens-protocol/client@npm:latest":
   version: 2.2.0
   resolution: "@lens-protocol/client@npm:2.2.0"
   dependencies:
@@ -2405,7 +2405,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.3.2, @noble/hashes@npm:^1.1.2":
+"@noble/hashes@npm:1.3.2":
   version: 1.3.2
   resolution: "@noble/hashes@npm:1.3.2"
   checksum: fe23536b436539d13f90e4b9be843cc63b1b17666a07634a2b1259dded6f490be3d050249e6af98076ea8f2ea0d56f578773c2197f2aa0eeaa5fba5bc18ba474
@@ -2419,7 +2419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.3.1, @noble/hashes@npm:^1.4.0":
+"@noble/hashes@npm:^1.1.2, @noble/hashes@npm:^1.3.1, @noble/hashes@npm:^1.4.0":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
   checksum: 8ba816ae26c90764b8c42493eea383716396096c5f7ba6bea559993194f49d80a73c081f315f4c367e51bd2d5891700bcdfa816b421d24ab45b41cb03e4f3342
@@ -2883,32 +2883,19 @@ __metadata:
   linkType: hard
 
 "@openzeppelin/defender-admin-client@npm:^1.52.0":
-  version: 1.54.3
-  resolution: "@openzeppelin/defender-admin-client@npm:1.54.3"
+  version: 1.54.4
+  resolution: "@openzeppelin/defender-admin-client@npm:1.54.4"
   dependencies:
-    "@openzeppelin/defender-base-client": 1.54.2
+    "@openzeppelin/defender-base-client": 1.54.4
     axios: ^1.4.0
     ethers: ^5.7.2
     lodash: ^4.17.19
     node-fetch: ^2.6.0
-  checksum: 54efa08a3f6b0bc178e40805caec056f7e75238207cebfba5834bc2aecdc46190dbe99015f5f6160060ff43120229837f4b1afadb1b5f4e3c98da690dc093c3d
+  checksum: 96e25b4406de03f7b73b9f304f309394b565e35d257920c6f10805d9b22b3a7855879e104e2f5120192fad42829b94dab76cf4892e21bd95c0e21e52147aa207
   languageName: node
   linkType: hard
 
-"@openzeppelin/defender-base-client@npm:1.54.2":
-  version: 1.54.2
-  resolution: "@openzeppelin/defender-base-client@npm:1.54.2"
-  dependencies:
-    amazon-cognito-identity-js: ^6.0.1
-    async-retry: ^1.3.3
-    axios: ^1.4.0
-    lodash: ^4.17.19
-    node-fetch: ^2.6.0
-  checksum: ddc7ae8d473dd28f033c0cb6cd783aae9b70400b8b80a729d299861e435b5ddf266b3a1684376b3b4133d4489d8c1222cb2ec631d70721398a0daf1af882390f
-  languageName: node
-  linkType: hard
-
-"@openzeppelin/defender-base-client@npm:^1.52.0":
+"@openzeppelin/defender-base-client@npm:1.54.4, @openzeppelin/defender-base-client@npm:^1.52.0":
   version: 1.54.4
   resolution: "@openzeppelin/defender-base-client@npm:1.54.4"
   dependencies:
@@ -2921,35 +2908,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openzeppelin/defender-sdk-base-client@npm:^1.10.0, @openzeppelin/defender-sdk-base-client@npm:^1.13.0":
-  version: 1.13.0
-  resolution: "@openzeppelin/defender-sdk-base-client@npm:1.13.0"
+"@openzeppelin/defender-sdk-base-client@npm:^1.10.0, @openzeppelin/defender-sdk-base-client@npm:^1.13.1":
+  version: 1.13.1
+  resolution: "@openzeppelin/defender-sdk-base-client@npm:1.13.1"
   dependencies:
     amazon-cognito-identity-js: ^6.3.6
     async-retry: ^1.3.3
-  checksum: f3c56e86dd1c28ec76335d33623bc894e757431eb0ebd1e545f7a53ae7dceb1fc474fde94fe1916aa515a4986bb4b1f3b4510bac68426d471964b62943d6676d
+  checksum: 7c106379b266b55ad41888502e511d5f8f9a9c004b114a4fa6fba740e306c6b547e20510a5cb1e862b6b348ff55acc1051520a8d0114a729c8757676943fee2c
   languageName: node
   linkType: hard
 
 "@openzeppelin/defender-sdk-deploy-client@npm:^1.10.0":
-  version: 1.13.0
-  resolution: "@openzeppelin/defender-sdk-deploy-client@npm:1.13.0"
+  version: 1.13.1
+  resolution: "@openzeppelin/defender-sdk-deploy-client@npm:1.13.1"
   dependencies:
-    "@openzeppelin/defender-sdk-base-client": ^1.13.0
+    "@openzeppelin/defender-sdk-base-client": ^1.13.1
     axios: ^1.6.7
     lodash: ^4.17.21
-  checksum: 44b6fc7f4ea74bfb338dff5dee04a81258af9c60b8b34c44b47634e7a1963fcef8d0a0f5d3d90741664e9bdd08076a864da41d24080fc7d7679d4941cf03f7cd
+  checksum: 273b526c9502d84f6075a10fdc4606c55907247a68e5f4d6c8924dd3b246b86de711a801955fd89242d9b299eea545e01869cb03e4ca9ad977e11e732cbda043
   languageName: node
   linkType: hard
 
 "@openzeppelin/defender-sdk-network-client@npm:^1.10.0":
-  version: 1.13.0
-  resolution: "@openzeppelin/defender-sdk-network-client@npm:1.13.0"
+  version: 1.13.1
+  resolution: "@openzeppelin/defender-sdk-network-client@npm:1.13.1"
   dependencies:
-    "@openzeppelin/defender-sdk-base-client": ^1.13.0
+    "@openzeppelin/defender-sdk-base-client": ^1.13.1
     axios: ^1.6.7
     lodash: ^4.17.21
-  checksum: 3089d358830ca03e5fb0c0a416eb6e7e1191fc30dd6e55f68e639f9d4a72ec86c0adfcbca2f6b5cb447ddf0dfd3235b4ae7e6877c80115c97e5c061edfc4ae6b
+  checksum: 66f337504b8196635bb2a7c0142d20ffcc9e6dde54c55319a1cbc0392677dc04b55a5d0d3f95467480848f2db1f0adda37b72284c6ceda80d5f8292bcc7f7cb4
   languageName: node
   linkType: hard
 
@@ -3378,7 +3365,6 @@ __metadata:
     "@types/nprogress": ^0
     "@types/react": ^18.0.21
     "@types/react-copy-to-clipboard": ^5.0.4
-    "@types/uuid": ^9
     "@typescript-eslint/eslint-plugin": ~5.40.0
     "@uniswap/sdk-core": ~4.0.1
     "@uniswap/v2-sdk": ~3.0.1
@@ -3409,7 +3395,6 @@ __metadata:
     typescript: ~5.1.6
     use-debounce: ~8.0.4
     usehooks-ts: 2.13.0
-    uuid: ^9.0.1
     vercel: ~32.4.1
     viem: ^2.10.3
     wagmi: ^2.8.5
@@ -5537,15 +5522,15 @@ __metadata:
   linkType: hard
 
 "amazon-cognito-identity-js@npm:^6.0.1, amazon-cognito-identity-js@npm:^6.3.6":
-  version: 6.3.12
-  resolution: "amazon-cognito-identity-js@npm:6.3.12"
+  version: 6.3.13
+  resolution: "amazon-cognito-identity-js@npm:6.3.13"
   dependencies:
     "@aws-crypto/sha256-js": 1.2.2
     buffer: 4.9.2
     fast-base64-decode: ^1.0.0
     isomorphic-unfetch: ^3.0.0
     js-cookie: ^2.2.1
-  checksum: d3ccf7e4b2d6b9428d92af5820b7c348f332acc39c5f130c7eaeaf0f05ee9bf52264f866f71b784ec62c53368d60c3ac339c58213594062d826b435b46014323
+  checksum: 8a608ef1b99fca57d87103ceb2706d38e499a548d7724f194d50a709fa564ec63dbc703ded6a106e112d5443d06859f40e242815c25c465fdee4806bbce79459
   languageName: node
   linkType: hard
 
@@ -9467,10 +9452,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:1.19.3, fp-ts@npm:^1.0.0":
+"fp-ts@npm:1.19.3":
   version: 1.19.3
   resolution: "fp-ts@npm:1.19.3"
   checksum: eb0d4766ad561e9c5c01bfdd3d0ae589af135556921c733d26cf5289aad9f400110defdd93e6ac1d71f626697bb44d9d95ed2879c53dfd868f7cac3cf5c5553c
+  languageName: node
+  linkType: hard
+
+"fp-ts@npm:^1.0.0":
+  version: 1.19.5
+  resolution: "fp-ts@npm:1.19.5"
+  checksum: 67d2d9c3855d211ca2592b1ef805f98b618157e7681791a776d9d0f7f3e52fcca2122ebf5bc215908c9099fad69756d40e37210cf46cb4075dae1b61efe69e40
   languageName: node
   linkType: hard
 
@@ -13022,7 +13014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:5.0.1, minimatch@npm:^5.0.1":
+"minimatch@npm:5.0.1":
   version: 5.0.1
   resolution: "minimatch@npm:5.0.1"
   dependencies:
@@ -13037,6 +13029,15 @@ __metadata:
   dependencies:
     brace-expansion: ^2.0.1
   checksum: 253487976bf485b612f16bf57463520a14f512662e592e95c571afdab1442a6a6864b6c88f248ce6fc4ff0b6de04ac7aa6c8bb51e868e99d1d65eb0658a708b5
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^5.0.1":
+  version: 5.1.6
+  resolution: "minimatch@npm:5.1.6"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 7564208ef81d7065a370f788d337cd80a689e981042cb9a1d0e6580b6c6a8c9279eba80010516e258835a988363f99f54a6f711a315089b8b42694f5da9d0d77
   languageName: node
   linkType: hard
 
@@ -15551,8 +15552,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.22.2, resolve@npm:^1.22.4":
-"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.19.0, resolve@npm:^1.20.0, resolve@npm:^1.22.2, resolve@npm:^1.22.4":
+"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.19.0, resolve@npm:^1.22.2, resolve@npm:^1.22.4":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -15594,8 +15594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
-"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.4#~builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=07638b"
   dependencies:
@@ -17627,12 +17626,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uint8arrays@npm:3.1.0, uint8arrays@npm:^3.0.0":
+"uint8arrays@npm:3.1.0":
   version: 3.1.0
   resolution: "uint8arrays@npm:3.1.0"
   dependencies:
     multiformats: ^9.4.2
   checksum: 77fe0c8644417a849f5cfc0e5a5308c65e3b779a56f816dd27b8f60f7fac1ac7626f57c9abacec77d147beb5da8401b86438b1591d93cae7f7511a3211cc01b3
+  languageName: node
+  linkType: hard
+
+"uint8arrays@npm:^3.0.0":
+  version: 3.1.1
+  resolution: "uint8arrays@npm:3.1.1"
+  dependencies:
+    multiformats: ^9.4.2
+  checksum: b93b6c3f0a526b116799f3a3409bd4b5d5553eb3e73e485998ece7974742254fbc0d2f7988dd21ac86c4b974552f45d9ae9cf9cba9647e529f8eb1fdd2ed84d0
   languageName: node
   linkType: hard
 
@@ -18207,8 +18215,8 @@ __metadata:
   linkType: hard
 
 "viem@npm:^2.10.3":
-  version: 2.10.11
-  resolution: "viem@npm:2.10.11"
+  version: 2.11.0
+  resolution: "viem@npm:2.11.0"
   dependencies:
     "@adraffy/ens-normalize": 1.10.0
     "@noble/curves": 1.2.0
@@ -18223,7 +18231,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 962677bbaa7de2dc0ed1130dbaff1d577da2e3d3eb86c1e638e3192b0edde8e799d090a7ae76788d3fc08e2c5ba0d62647c358e4f68572117ab536ca9b227176
+  checksum: 8536feb339fb8ac9ff01515cfc767870d346bcd6c9a3f7155625f964fc0d40c72b373c39c7bd6d969a795d6dc82aee3e63bbcb0b85735b730e631ea5cf39f0e7
   languageName: node
   linkType: hard
 
@@ -18688,7 +18696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:20.2.4, yargs-parser@npm:^20.2.2":
+"yargs-parser@npm:20.2.4":
   version: 20.2.4
   resolution: "yargs-parser@npm:20.2.4"
   checksum: d251998a374b2743a20271c2fd752b9fbef24eb881d53a3b99a7caa5e8227fcafd9abf1f345ac5de46435821be25ec12189a11030c12ee6481fef6863ed8b924
@@ -18702,6 +18710,13 @@ __metadata:
     camelcase: ^5.0.0
     decamelize: ^1.2.0
   checksum: 60e8c7d1b85814594d3719300ecad4e6ae3796748b0926137bfec1f3042581b8646d67e83c6fc80a692ef08b8390f21ddcacb9464476c39bbdf52e34961dd4d9
+  languageName: node
+  linkType: hard
+
+"yargs-parser@npm:^20.2.2":
+  version: 20.2.9
+  resolution: "yargs-parser@npm:20.2.9"
+  checksum: 8bb69015f2b0ff9e17b2c8e6bfe224ab463dd00ca211eece72a4cd8a906224d2703fb8a326d36fdd0e68701e201b2a60ed7cf81ce0fd9b3799f9fe7745977ae3
   languageName: node
   linkType: hard
 

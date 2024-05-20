@@ -35,9 +35,6 @@
     "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo",
     "verify": "yarn workspace @se-2/hardhat verify"
   },
-  "resolutions": {
-    "usehooks-ts@^2.7.2": "patch:usehooks-ts@npm:^2.7.2#./.yarn/patches/usehooks-ts-npm-2.7.2-fceffe0e43.patch"
-  },
   "devDependencies": {
     "@openzeppelin/hardhat-upgrades": "^3.1.0",
     "@types/uuid": "^9",
