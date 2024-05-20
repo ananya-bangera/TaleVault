@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   80002: {
     TaleTrade: {
-      address: "0xd9902959cd74b14425adB69f5f51b239487f024C",
+      address: "0x77a568cdFB7B6f8B2c46f9eA24a3429530c15141",
       abi: [
         {
           inputs: [],
@@ -68,9 +68,15 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
+              indexed: false,
               internalType: "uint256",
               name: "id",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token_id",
               type: "uint256",
             },
             {
@@ -129,9 +135,15 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
+              indexed: false,
               internalType: "uint256",
               name: "id",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token_id",
               type: "uint256",
             },
             {
@@ -322,7 +334,7 @@ const deployedContracts = {
           outputs: [
             {
               internalType: "uint256",
-              name: "id",
+              name: "token_id",
               type: "uint256",
             },
             {
@@ -411,11 +423,6 @@ const deployedContracts = {
             {
               internalType: "string",
               name: "identify",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "uri",
               type: "string",
             },
             {
@@ -579,7 +586,7 @@ const deployedContracts = {
               components: [
                 {
                   internalType: "uint256",
-                  name: "id",
+                  name: "token_id",
                   type: "uint256",
                 },
                 {

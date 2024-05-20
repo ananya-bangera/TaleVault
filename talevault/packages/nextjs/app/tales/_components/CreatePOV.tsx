@@ -136,15 +136,15 @@ export default function CreatePOV() {
     try {
       console.log(itemType);
       console.log(network);
-      // await writeYourContractAsync({
-      //   functionName: "safeMint",
-      //   args: [ address,  identify, "uri", title, itemType, network, story, BigNumber.from(ethAmount).toBigInt()],
-      //   // functionName: "transferTokensPayLINK",
-      //   // functionName: "allowlistDestinationChain",
-      //   // args: ["16015286601757825753", "0xe8658Dddc779097882A0f963f2C65fACBBa51ed1","0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4" ,"1000000000000000"],
-      //   // args: ["16015286601757825753",true],
+      await writeYourContractAsync({
+        functionName: "safeMint",
+        args: [ address,  identify, title, itemType, network, story, BigNumber.from(ethAmount).toBigInt()],
+        // functionName: "transferTokensPayLINK",
+        // functionName: "allowlistDestinationChain",
+        // args: ["16015286601757825753", "0xe8658Dddc779097882A0f963f2C65fACBBa51ed1","0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4" ,"1000000000000000"],
+        // args: ["16015286601757825753",true],
       
-      // });
+      });
     } catch (e) {
       console.error("Error setting greeting:", e);
     }

@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TaleTrade is ERC721 {
 	struct POV {
-		uint256 id;
+		uint256 token_id;
 		string identify;
 		string name;
 		string genre;
@@ -23,7 +23,8 @@ contract TaleTrade is ERC721 {
 	mapping(string => address) mapIdentityToCreator;
 	uint256 tokenId;
 	event POVCreated(
-		uint256 indexed id,
+		uint256 id,
+		uint256 token_id,
 		string name,
 		string genre,
 		string identify,
@@ -35,7 +36,8 @@ contract TaleTrade is ERC721 {
 	);
 
 	event POVBought(
-		uint256 indexed id,
+		uint256 id,
+		uint256 token_id,
 		string name,
 		string genre,
 		string identify,
@@ -47,12 +49,13 @@ contract TaleTrade is ERC721 {
 	);
 	event VoteReputation(uint256 amt, address creator);
 
-	constructor() ERC721("TaleToken", "TALE") {}
+	constructor() ERC721("TaleToken", "TALE") {
+		tokenId = 0;
+	}
 
 	function safeMint(
 		address to,
 		string memory identify,
-		string memory uri,
 		string memory name,
 		string memory genre,
 		string memory network,
@@ -60,9 +63,9 @@ contract TaleTrade is ERC721 {
 		uint256 amt
 	) public {
 		_safeMint(to, tokenId);
-		
+
 		POV memory pov = POV({
-			id: tokenId,
+			token_id: tokenId,
 			identify: identify,
 			name: name,
 			genre: genre,
@@ -73,9 +76,10 @@ contract TaleTrade is ERC721 {
 			status: false
 		});
 		mapIdToPov[tokenId] = pov;
-		tokenId = tokenId + 1;
+
 		mapIdentityToCreator[identify] = msg.sender;
 		emit POVCreated(
+			tokenId,
 			tokenId,
 			name,
 			genre,
@@ -86,8 +90,8 @@ contract TaleTrade is ERC721 {
 			amt,
 			false
 		);
+		tokenId = tokenId + 1;
 	}
-
 
 	function supportsInterface(
 		bytes4 interfaceId
@@ -104,7 +108,8 @@ contract TaleTrade is ERC721 {
 		super.safeTransferFrom(from, to, token_id);
 		POV memory pov = mapIdToPov[token_id];
 		emit POVCreated(
-			pov.id,
+			pov.token_id,
+			token_id,
 			pov.name,
 			pov.genre,
 			pov.identify,

@@ -22,15 +22,15 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("Trade", {
-    from: deployer,
-    // Contract constructor arguments -router add | LINK addr
-    args: ["0x9C32fCB86BF0f4a1A8921a9Fe46de3198bb884B2","0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904"],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
-  });
+  // await deploy("Trade", {
+  //   from: deployer,
+  //   // Contract constructor arguments -router add | LINK addr
+  //   args: ["0x9C32fCB86BF0f4a1A8921a9Fe46de3198bb884B2","0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904"],
+  //   log: true,
+  //   // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+  //   // automatically mining the contract deployment transaction. There is no effect on live networks.
+  //   autoMine: true,
+  // });
   await deploy("TaleTrade", {
     from: deployer,
     // Contract constructor arguments -router add | LINK addr

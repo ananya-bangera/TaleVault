@@ -10,7 +10,7 @@ import ViewPOV from "./_components/ViewPOV";
 
 
 const Tales: NextPage = () => {
- const [createPOV, setcreatePOV] = useState(true)
+ const [createPOV, setcreatePOV] = useState(false)
   return (
     <div className="flex flex-col items-center p-8">
       <div className="flex flex-row place-content-center">

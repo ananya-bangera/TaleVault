@@ -1,9 +1,0 @@
-{
-  "name": "thegraph",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "@graphprotocol/graph-cli": "^0.71.2"
-  }
-}
