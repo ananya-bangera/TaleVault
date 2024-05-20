@@ -5,6 +5,8 @@ import MarkDown from "./MarkDown";
 import "flowbite";
 import { BoltIcon, TagIcon } from "@heroicons/react/24/outline";
 import { EtherInput } from "~~/components/scaffold-eth";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { useAccount } from "wagmi";
 
 export default function CreatePOV() {
   const genres = [
@@ -59,6 +61,24 @@ export default function CreatePOV() {
   const [itemType, setItemType] = useState("");
   const [ethAmount, setEthAmount] = useState("");
   const [title, setTitle] = useState("");
+  const {address} = useAccount();
+  const network = "Amoy";
+  const identify =  "" //uuid4();
+  const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("Trade");
+  async function handleCreatePOV() {
+    try {
+      await writeYourContractAsync({
+        functionName: "transferTokensPayLINK",
+        // functionName: "allowlistDestinationChain",
+        args: ["16015286601757825753", "0xe8658Dddc779097882A0f963f2C65fACBBa51ed1","0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4" ,"1000000000000000"],
+        // args: ["16015286601757825753",true],
+        // args: [ address,  identify, "uri", title, itemType, network, story, ethAmount],
+      
+      });
+    } catch (e) {
+      console.error("Error setting greeting:", e);
+    }
+  }
   return (
     <div className="card items-center w-full  m-12 shadow-xl  p-8  dark:bg-gray-700 bg-secondary ">
       <h1 className="card-title font-mono ">Create a POV</h1>
@@ -125,7 +145,7 @@ export default function CreatePOV() {
           <MarkDown />
         </div>
         <div className="flex place-content-center m-auto p-2">
-          <input type="submit" value="Submit" className="btn m-auto mt-2 p-auto" />
+          <input type="submit" value="Submit" onClick={() => handleCreatePOV()} className="btn m-auto mt-2 p-auto" />
         </div>
       </div>
     </div>

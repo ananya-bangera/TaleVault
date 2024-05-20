@@ -39,6 +39,7 @@
     "usehooks-ts@^2.7.2": "patch:usehooks-ts@npm:^2.7.2#./.yarn/patches/usehooks-ts-npm-2.7.2-fceffe0e43.patch"
   },
   "devDependencies": {
+    "@openzeppelin/hardhat-upgrades": "^3.1.0",
     "@types/uuid": "^9",
     "husky": "~8.0.3",
     "lint-staged": "~13.2.2",
@@ -51,8 +52,9 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^1.1.0",
-    "@chainlink/contracts-ccip": "^1.4.0",
+    "@chainlink/contracts-ccip": "1.4.0",
     "@lens-protocol/react-web": "^2.2.0",
+    "@openzeppelin/contracts": "^5.0.2",
     "@tippyjs/react": "^4.2.6",
     "@uiw/react-md-editor": "^4.0.4",
     "react-countdown": "^2.3.5",
