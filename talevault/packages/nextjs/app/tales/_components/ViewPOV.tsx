@@ -131,7 +131,7 @@ export default function ViewPOV() {
       method: "POST",
       body: getPovBought,
     });
-    const value2 = await response.json();
+    const value2 = await response2.json();
  
     let bought = value2.data.povcreateds.map(pov => pov.token_id);
 
@@ -373,10 +373,10 @@ export default function ViewPOV() {
         },
       ];
       const BnM = new ethers.Contract(BnM_ADDRESS, ABI, signer);
-      // const contracts = await BnM.transfer(
-      //   "0x77a568cdFB7B6f8B2c46f9eA24a3429530c15141",
-      //   BigNumber.from(pov.amt).toBigInt(),
-      // );
+      const contracts = await BnM.transfer(
+        "0x77a568cdFB7B6f8B2c46f9eA24a3429530c15141",
+        BigNumber.from(pov.amt).toBigInt(),
+      );
       // console.log(contracts);
       if (pov.network === "Sepolia") {
         console.log("Started..");

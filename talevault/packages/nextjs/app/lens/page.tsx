@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Login from "./_components/Login";
+
 import { ChangeProfileManagerActionType, LensClient, Wallet, development, isRelaySuccess } from "@lens-protocol/client";
 import { LinkMetadata, MediaImageMimeType, image, link } from "@lens-protocol/metadata";
 import { ethers } from "ethers";
@@ -8,11 +10,13 @@ import { encode } from "punycode";
 import { v4 as uuidv4 } from "uuid";
 import { useAccount } from "wagmi";
 import { setEnvironmentData } from "worker_threads";
+import Profile from "./_components/[profile_id]/page";
 
 export default function Test() {
   const account = useAccount();
-  let handle = "";
-  let profile_id = "0x0242";
+  let handle = localStorage.getItem("handle");
+  let profile_id = "0x025a";
+  const [isauthdone, setisauthdone] = useState(false);
   const lensClient = new LensClient({
     environment: development,
   });
@@ -37,7 +41,7 @@ export default function Test() {
     console.log(profileByHandle);
   }
 
-  async function Login() {
+  async function LoginAccount() {
     const { id, text } = await lensClient.authentication.generateChallenge({
       signedBy: account.address ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
       for: profile_id, // e.g "0x01"
@@ -313,7 +317,7 @@ export default function Test() {
       <button className="btn" onClick={() => checkProfile()}>
         Check
       </button>
-      <button className="btn" onClick={() => Login()}>
+      <button className="btn" onClick={() => LoginAccount()}>
         Login
       </button>
       <button className="btn" onClick={() => getToken()}>
@@ -360,6 +364,9 @@ export default function Test() {
       <button className="btn" onClick={() => createMirror()}>
         createMirror
       </button>
+      {(isauthdone||handle!=null)? <Profile /> :  <Login isauthdone={isauthdone} setisauthdone={setisauthdone} />}
+     
+      {/* <Profile /> */}
     </div>
   );
 }
