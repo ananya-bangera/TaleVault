@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import TALETRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/TaleTrade.json";
 import MarkDown from "./MarkDown";
 import { BigNumber, ethers } from "ethers";
 import "flowbite";
@@ -132,12 +133,11 @@ export default function ViewPOV() {
       body: getPovBought,
     });
     const value2 = await response2.json();
- 
+
     let bought = value2.data.povcreateds.map(pov => pov.token_id);
 
     setpovList(value.data.povcreateds.filter(pov => !bought.includes(pov.token_id)));
     console.log(value.data.povcreateds.filter(pov => !bought.includes(pov.token_id)));
-    
   }
   const { address } = useAccount();
 
@@ -373,10 +373,7 @@ export default function ViewPOV() {
         },
       ];
       const BnM = new ethers.Contract(BnM_ADDRESS, ABI, signer);
-      const contracts = await BnM.transfer(
-        "0x77a568cdFB7B6f8B2c46f9eA24a3429530c15141",
-        BigNumber.from(pov.amt).toBigInt(),
-      );
+      const contracts = await BnM.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
       // console.log(contracts);
       if (pov.network === "Sepolia") {
         console.log("Started..");

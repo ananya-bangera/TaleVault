@@ -10,7 +10,7 @@ import { encode } from "punycode";
 import { v4 as uuidv4 } from "uuid";
 import { useAccount } from "wagmi";
 import { setEnvironmentData } from "worker_threads";
-import Profile from "./_components/[profile_id]/page";
+import Profile from "./[handle]/page";
 
 export default function Test() {
   const account = useAccount();
@@ -364,7 +364,7 @@ export default function Test() {
       <button className="btn" onClick={() => createMirror()}>
         createMirror
       </button>
-      {(isauthdone||handle!=null)? <Profile /> :  <Login isauthdone={isauthdone} setisauthdone={setisauthdone} />}
+      {(isauthdone||handle!=null)? <Profile params={handle} /> :  <Login isauthdone={isauthdone} setisauthdone={setisauthdone} />}
      
       {/* <Profile /> */}
     </div>

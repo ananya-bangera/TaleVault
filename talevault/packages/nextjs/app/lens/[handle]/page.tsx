@@ -1,23 +1,51 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import TALETRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/TaleTrade.json";
 import { LensClient, development } from "@lens-protocol/client";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
+import Select from "react-select";
 import { useAccount } from "wagmi";
+import { BoltIcon, GlobeAltIcon, TagIcon } from "@heroicons/react/24/outline";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
-export default function Profile() {
-  let handle = localStorage.getItem("handle");
+const style = {
+  control: base => ({
+    ...base,
+    border: 0,
+    // This line disable the blue border
+    boxShadow: "none",
+  }),
+};
+export default function Profile({ params }) {
+  let viewHandle = params.handle; //others prfile handle
+  let handle = localStorage.getItem("handle"); // my profile handle
+  const [title, setTitle] = useState("");
+  console.log(viewHandle);
+  console.log(handle);
   const [profileManager, setprofileManager] = useState(localStorage.getItem("profileManager"));
   const [followers, setFollowers] = useState([]);
-  let profile_id = localStorage.getItem("profile_id");
+  let profile_id = "";
+  let my_profile_id = localStorage.getItem("profile_id");
   const { address } = useAccount();
   const lensClient = new LensClient({
     environment: development,
   });
+  async function checkProfile() {
+    let handle_check = viewHandle == undefined || viewHandle == handle ? handle : viewHandle;
+    console.log(`check handle: ${handle_check}`);
+    const profileByHandle = await lensClient.profile.fetch({
+      forHandle: `lens/${handle_check}`,
+    });
+    console.log(profileByHandle);
+    profile_id = profileByHandle?.id;
+    console.log(profile_id);
+  }
   async function LoginAccount() {
     const { id, text } = await lensClient.authentication.generateChallenge({
       signedBy: address ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
-      for: profile_id, // e.g "0x01"
+      for: my_profile_id, // e.g "0x01"
     });
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -29,10 +57,12 @@ export default function Profile() {
     });
     const isAuthenticated = await lensClient.authentication.isAuthenticated();
     console.log(isAuthenticated);
+    await checkProfile();
   }
 
   async function isProfMngrEnabled() {
     await LoginAccount();
+
     const profile = await lensClient.profile.fetch({
       forProfileId: profile_id,
     });
@@ -74,10 +104,28 @@ export default function Profile() {
     );
     localStorage.setItem("profileManager", "true");
   }
+  async function followProfileID() {
+    await LoginAccount();
+    console.log(profile_id);
+    console.log(my_profile_id);
+    const isAuthenticated = await lensClient.authentication.isAuthenticated();
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      const result = await lensClient.profile.follow({
+        follow: [
+          {
+            profileId: profile_id,
+          },
+        ],
+      });
+      await checkFollowers();
+    }
+  }
   async function checkFollowers() {
     // const isAuthenticated = await lensClient.authentication.isAuthenticated();
     // console.log(isAuthenticated);
     // if (isAuthenticated) {
+    await checkProfile();
     const result = await lensClient.profile.followers({
       of: profile_id ?? "",
     });
@@ -89,8 +137,51 @@ export default function Profile() {
     // }
   }
 
+  const getPovBought = JSON.stringify({
+    query: `
+      query MyQuery {
+        povcreateds(where: {status: true}) {
+          amt
+          creator
+          genre
+          id
+          identify
+          name
+          network
+          status
+          story
+          transactionHash
+          token_id
+        }
+      }
+  `,
+  });
+
+  async function handleGetPOVs() {
+    const response2 = await fetch("https://api.studio.thegraph.com/query/41847/tales_final/latest", {
+      headers: {
+        "content-type": "application/json",
+      },
+
+      method: "POST",
+      body: getPovBought,
+    });
+    const value2 = await response2.json();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const TaleTradeContract = new ethers.Contract(TALETRADE_CONTRACT.address, TALETRADE_CONTRACT.abi, signer);
+    let bought = await value2.data.povcreateds.map(async pov => {
+      // console.log(pov);
+      let owner = await TaleTradeContract.ownerOf(BigNumber.from(pov.token_id).toBigInt());
+      // console.log(owner.toString());
+      return owner.toString();
+    });
+    console.log(bought);
+  }
+
   useEffect(() => {
     checkFollowers();
+    handleGetPOVs();
   }, []);
   return (
     <div className="">
@@ -114,7 +205,7 @@ export default function Profile() {
               </svg>
             </button>
           </div>
-          <nav className="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
+          {/* <nav className="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
             <div className="relative" x-data="{ open: false }">
               <button className="flex flex-row items-center space-x-2 w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent hover:bg-blue-800 md:w-auto md:inline md:mt-0 md:ml-4 hover:bg-gray-200 focus:bg-blue-800 focus:outline-none focus:shadow-outline">
                 <span>{handle}</span>
@@ -158,7 +249,7 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-          </nav>
+          </nav> */}
         </div>
       </div>
 
@@ -173,7 +264,9 @@ export default function Profile() {
                   alt=""
                 />
               </div>
-              <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{handle}</h1>
+              <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
+                {viewHandle == undefined ? handle : viewHandle}
+              </h1>
               {/* <h3 className="text-gray-600 font-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
               <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, eligendi dolorum sequi illum qui
@@ -196,6 +289,10 @@ export default function Profile() {
                   <span className="ml-auto">Nov 07, 2016</span>
                 </li>
               </ul>
+
+              <button className="btn m-8" onClick={() => followProfileID()}>
+                Follow
+              </button>
             </div>
 
             <div className="my-4"></div>
@@ -230,9 +327,14 @@ export default function Profile() {
                     <>
                       {followers.map(follower => {
                         return (
-                          <li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
-                            {follower.toString()}
-                          </li>
+                          <Link href={`/lens/${follower.handle.localName}`}>
+                            <li
+                              key={follower.handle.localName}
+                              className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out"
+                            >
+                              {follower.handle.localName}
+                            </li>
+                          </Link>
                         );
                       })}
                     </>
@@ -242,69 +344,64 @@ export default function Profile() {
             </div>
           </div>
           <div className="w-full md:w-9/12 mx-2 h-64">
-            <div className="bg-white p-3 shadow-sm rounded-sm">
-              <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                <span className="text-green-500">
-                  <svg
-                    className="h-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            <div className="card items-center w-full  m-4 shadow-xl  p-8  dark:bg-gray-700 bg-secondary ">
+              <h1 className="card-title font-mono ">Create Publication</h1>
+              <div className=" items-center w-full p-8 ">
+                <div className="flex flex-row items-center justify-evenly mb-8 w-full">
+                  <label className="input flex items-center m-2">
+                    <BoltIcon className="w-4 h-4 m-2" />
+                    <input
+                      type="text"
+                      className=" input items-center border-0"
+                      placeholder="Title for your Content"
+                      onChange={e => setTitle(e.target.value)}
                     />
-                  </svg>
-                </span>
-                <span className="tracking-wide">About</span>
-              </div>
-              <div className="text-gray-700">
-                <div className="grid md:grid-cols-2 text-sm">
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">First Name</div>
-                    <div className="px-4 py-2">Jane</div>
+                  </label>
+                  <div className="dropdown-right m-2 inline-flex items-center w-2/5">
+                    <label className="input flex items-center min-w-full">
+                      <TagIcon className="w-4 h-4 m-2" />
+                      <Select
+                        className="basic-single rounded-3xl border-0 w-full"
+                        classNamePrefix="select"
+                        isClearable={true}
+                        isSearchable={true}
+                        name="genre"
+                        styles={style}
+                        // onChange={e => setItemType(e.value.toString())}
+                        // options={genresLabels}
+                      />
+                    </label>
                   </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Last Name</div>
-                    <div className="px-4 py-2">Doe</div>
+                  <div className="dropdown-right m-2 inline-flex items-center w-2/5">
+                    <label className="input flex items-center min-w-full">
+                      <GlobeAltIcon className="w-4 h-4 m-2" />
+                      {/* <Select
+                className="basic-single rounded-3xl border-0 w-full bg-base-200"
+                classNamePrefix="select"
+                isClearable={true}
+                isSearchable={true}
+                name="network"
+                styles={style}
+                onChange={(e)=>setNetwork(e.value.toString())}
+                options={networkLabels}
+              /> */}
+                    </label>
                   </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Gender</div>
-                    <div className="px-4 py-2">Female</div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Contact No.</div>
-                    <div className="px-4 py-2">+11 998001001</div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Current Address</div>
-                    <div className="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Permanant Address</div>
-                    <div className="px-4 py-2">Arlington Heights, IL, Illinois</div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Email.</div>
-                    <div className="px-4 py-2">
-                      <a className="text-blue-800" href="mailto:jane@example.com">
-                        jane@example.com
-                      </a>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Birthday</div>
-                    <div className="px-4 py-2">Feb 06, 1998</div>
+                  <div className="m-2 w-1/4">
+                    {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
                   </div>
                 </div>
+
+                <div className="justify-center">{/* <MarkDown story={story} setStory={setStory}/> */}</div>
+                <div className="flex place-content-center m-auto p-2">
+                  <input
+                    type="submit"
+                    value="Submit"
+                    onClick={() => handleCreatePOV()}
+                    className="btn m-auto mt-2 p-auto"
+                  />
+                </div>
               </div>
-              <button className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">
-                Show Full Information
-              </button>
             </div>
 
             <div className="my-4"></div>
