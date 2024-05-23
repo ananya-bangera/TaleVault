@@ -29,6 +29,7 @@ export default function Profile({ params }) {
   const [title, setTitle] = useState("");
   const [uploading, setUploading] = useState(false);
   const [cid, setCid] = useState("");
+  const [publications, setPublications] = useState([]);
   let pinataApiKey = process.env.NEXT_PUBLIC_PINATA_API_KEY;
   let pinataApiSecret = process.env.NEXT_PUBLIC_PINATA_API_SECRET;
   const itemsOpt = new Map();
@@ -314,9 +315,28 @@ export default function Profile({ params }) {
     console.log(bought);
     console.log(itemsOpt);
   }
+  async function checkPublications() {
+    await LoginAccount();
+    console.log("profile_id")
+    console.log(profile_id)
+    const isAuthenticated = await lensClient.authentication.isAuthenticated();
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      // lensClient.publication.fetchAll
+      const result = await lensClient.publication.fetchAll({
+       where: {
+          from: [profile_id],
+        },
+      });
+      console.log(result.items);
+      setPublications(result.items);
+      console.log(result);
+    }
+  }
 
   useEffect(() => {
     checkFollowers();
+    checkPublications();
   }, []);
   return (
     <div className="">
@@ -577,89 +597,18 @@ export default function Profile({ params }) {
                   />
                 </div>
               </div>
+              
             </div>
-
-            <div className="my-4"></div>
-
-            <div className="bg-white p-3 shadow-sm rounded-sm">
-              <div className="grid grid-cols-2">
-                <div>
-                  <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                    <span className="text-green-500">
-                      <svg
-                        className="h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </span>
-                    <span className="tracking-wide">Experience</span>
-                  </div>
-                  <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                    <span className="text-green-500">
-                      <svg
-                        className="h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path
-                          fill="#fff"
-                          d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
-                        />
-                      </svg>
-                    </span>
-                    <span className="tracking-wide">Education</span>
-                  </div>
-                  <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">Masters Degree in Oxford</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Bachelors Degreen in LPU</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div className="card bg-white p-3 shadow-sm rounded-sm">
+              {publications.map((publication)=>{
+                return (<li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
+                {publication.toString()}
+              </li>);
+              })}
             </div>
+ 
+
+            
           </div>
         </div>
       </div>
