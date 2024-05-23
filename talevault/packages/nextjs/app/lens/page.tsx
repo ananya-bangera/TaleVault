@@ -42,6 +42,7 @@ export default function Test() {
   }
 
   async function LoginAccount() {
+    profile_id = "0x0265";
     const { id, text } = await lensClient.authentication.generateChallenge({
       signedBy: account.address ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
       for: profile_id, // e.g "0x01"
@@ -236,7 +237,7 @@ export default function Test() {
         // forTxHash: "0xdf09971dd9941ab3fcb83293dc9afb41f5157ff7610dc9a9eca3ae8939f6e421",
         // forId: 'ca91c8f1-4b0f-4ff6-8774-5a95c93a4551', //"0x78ba2fbd57eb339719d0af173b7709d93b9125d2d5910cf71e0ad4505901a5a9"
         where: {
-          from: ["0x0242"],
+          from: ["0x0265"],
         },
       });
       console.log(result);

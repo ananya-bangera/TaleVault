@@ -140,6 +140,7 @@ export default function ViewPOV() {
     console.log(value.data.povcreateds.filter(pov => !bought.includes(pov.token_id)));
   }
   const { address } = useAccount();
+  console.log("address:" + address?.toString());
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("TaleTrade");
   const { writeContractAsync: writeYourContractAsync2 } = useScaffoldWriteContract("Trade");

@@ -2,14 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { NextResponse } from "next/server";
 import TALETRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/TaleTrade.json";
-import { LensClient, development } from "@lens-protocol/client";
+import { LensClient, development, isRelaySuccess } from "@lens-protocol/client";
 import { BigNumber, ethers } from "ethers";
+import { encode } from "punycode";
 import Select from "react-select";
-import { useAccount } from "wagmi";
+import { v4 as uuidv4 } from "uuid";
+import { useAccount, useWalletClient } from "wagmi";
 import { BoltIcon, GlobeAltIcon, TagIcon } from "@heroicons/react/24/outline";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
+let bought = [];
 const style = {
   control: base => ({
     ...base,
@@ -21,14 +25,22 @@ const style = {
 export default function Profile({ params }) {
   let viewHandle = params.handle; //others prfile handle
   let handle = localStorage.getItem("handle"); // my profile handle
+  const [identity, setIdentity] = useState("");
   const [title, setTitle] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [cid, setCid] = useState("");
+  let pinataApiKey = process.env.NEXT_PUBLIC_PINATA_API_KEY;
+  let pinataApiSecret = process.env.NEXT_PUBLIC_PINATA_API_SECRET;
+  const itemsOpt = new Map();
   console.log(viewHandle);
   console.log(handle);
   const [profileManager, setprofileManager] = useState(localStorage.getItem("profileManager"));
   const [followers, setFollowers] = useState([]);
   let profile_id = "";
   let my_profile_id = localStorage.getItem("profile_id");
-  const { address } = useAccount();
+  const { address: connectedAddress } = useAccount();
+  let my_address = connectedAddress;
+  console.log(`connectedAdress ${connectedAddress}`);
   const lensClient = new LensClient({
     environment: development,
   });
@@ -44,7 +56,7 @@ export default function Profile({ params }) {
   }
   async function LoginAccount() {
     const { id, text } = await lensClient.authentication.generateChallenge({
-      signedBy: address ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
+      signedBy: connectedAddress ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
       for: my_profile_id, // e.g "0x01"
     });
 
@@ -121,10 +133,112 @@ export default function Profile({ params }) {
       await checkFollowers();
     }
   }
+  const createContentMetadata = function (content: any, contentName: any, videoUri: any, videoType: any, tags: any) {
+    return {
+      version: "2.0.0",
+      metadata_id: uuidv4(),
+      description: "Created from LensBlog",
+      content: content,
+      name: contentName,
+      mainContentFocus: "ARTICLE",
+      attributes: [],
+      locale: "en-US",
+      appId: "lensblog",
+      video: videoUri,
+      imageMimeType: videoType,
+      tags: [tags],
+    };
+  };
+  async function pinMetadataToPinata(metadata: any, contentName: any, pinataApiKey: any, pinataApiSecret: any) {
+    console.log("pinning metadata to pinata...");
+    const data = JSON.stringify({
+      pinataMetadata: { name: contentName },
+      pinataContent: metadata,
+    });
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        pinata_api_key: pinataApiKey,
+        pinata_secret_api_key: pinataApiSecret,
+      },
+      body: data,
+    };
+    const response = await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", config);
+    const ipfsHash = (await response.json()).IpfsHash;
+    console.log(`Stored content metadata with ${ipfsHash}`);
+    return ipfsHash;
+  }
+  async function getContentURI(content: any, contentName: any, vidUri: any, vidType: any, tags: any) {
+    let fullContentURI = "";
+
+    const contentMetadata = createContentMetadata(content, contentName, vidUri, vidType, tags);
+
+    const BASE_64_PREFIX = "data:application/json;base64,";
+    if (pinataApiSecret && pinataApiKey) {
+      const metadataIpfsHash = await pinMetadataToPinata(contentMetadata, contentName, pinataApiKey, pinataApiSecret);
+      fullContentURI = `ipfs://${metadataIpfsHash}`;
+      console.log(fullContentURI);
+    } else {
+      const base64EncodedContent = encode(JSON.stringify(contentMetadata));
+      const fullContentURI = BASE_64_PREFIX + base64EncodedContent;
+    }
+    return fullContentURI;
+  }
+  async function handleCreateContent() {
+    console.log(title);
+    console.log(identity);
+    console.log(cid);
+    await LoginAccount();
+    const isAuthenticated = await lensClient.authentication.isAuthenticated();
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      var vidUri = `ipfs://${cid}`;
+      var vidType = "video/mpv4";
+      var fullContentURI = await getContentURI(title, title, vidUri, vidType, identity);
+
+      const result = await lensClient.publication.postOnchain({
+        contentURI: fullContentURI, // or arweave
+      });
+      console.log(result);
+      const resultValue = result.unwrap();
+
+      if (!isRelaySuccess(resultValue)) {
+        console.log(`Something went wrong`, resultValue);
+        return;
+      }
+      console.log(`Transaction was successfully broadcasted with txId ${resultValue.txId}`);
+    }
+  }
+  async function uploadFileToIPFS(fileToUpload: type) {
+    try {
+      setUploading(true);
+      const data = new FormData();
+      data.set("file", fileToUpload);
+      data.append("pinataMetadata", JSON.stringify({ name: "File to upload" }));
+      const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
+        },
+        body: data,
+      });
+      const { IpfsHash } = await res.json();
+      console.log(IpfsHash);
+      setCid(IpfsHash);
+      setUploading(false);
+      return NextResponse.json({ IpfsHash }, { status: 200 });
+    } catch (e) {
+      console.log(e);
+      setUploading(false);
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+  }
   async function checkFollowers() {
     // const isAuthenticated = await lensClient.authentication.isAuthenticated();
     // console.log(isAuthenticated);
     // if (isAuthenticated) {
+    console.log(`ananya address ${connectedAddress}`);
     await checkProfile();
     const result = await lensClient.profile.followers({
       of: profile_id ?? "",
@@ -134,6 +248,7 @@ export default function Profile({ params }) {
       `Followers:`,
       result.items.map(p => p.handle),
     );
+    // await handleGetPOVs();
     // }
   }
 
@@ -158,6 +273,17 @@ export default function Profile({ params }) {
   });
 
   async function handleGetPOVs() {
+    console.log("my_address");
+    console.log(my_address);
+    if (connectedAddress === undefined) {
+      console.log("connectedAddress is undefined");
+    }
+    console.log(`connectedAdress ${connectedAddress}`);
+    // while (connectedAddress == undefined) {
+    //   console.log("waiting for address");
+    // }
+    console.log(`connectedAdress ${connectedAddress}`);
+
     const response2 = await fetch("https://api.studio.thegraph.com/query/41847/tales_final/latest", {
       headers: {
         "content-type": "application/json",
@@ -170,18 +296,27 @@ export default function Profile({ params }) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const TaleTradeContract = new ethers.Contract(TALETRADE_CONTRACT.address, TALETRADE_CONTRACT.abi, signer);
-    let bought = await value2.data.povcreateds.map(async pov => {
+
+    await value2.data.povcreateds.map(async pov => {
       // console.log(pov);
       let owner = await TaleTradeContract.ownerOf(BigNumber.from(pov.token_id).toBigInt());
-      // console.log(owner.toString());
-      return owner.toString();
+      console.log(owner);
+      console.log(connectedAddress);
+      console.log("******");
+      let ans = await owner.toString();
+      console.log(connectedAddress == owner);
+      if (ans === connectedAddress && itemsOpt.get(pov.name) == undefined) {
+        // console.log(itemsOpt.get("ananya"));
+        bought.push({ value: pov.identify, label: pov.name });
+        itemsOpt.set(pov.name, pov.identify);
+      }
     });
     console.log(bought);
+    console.log(itemsOpt);
   }
 
   useEffect(() => {
     checkFollowers();
-    handleGetPOVs();
   }, []);
   return (
     <div className="">
@@ -293,6 +428,9 @@ export default function Profile({ params }) {
               <button className="btn m-8" onClick={() => followProfileID()}>
                 Follow
               </button>
+              <button className="btn m-8" onClick={() => handleGetPOVs()}>
+                handleGetPOVs
+              </button>
             </div>
 
             <div className="my-4"></div>
@@ -327,11 +465,8 @@ export default function Profile({ params }) {
                     <>
                       {followers.map(follower => {
                         return (
-                          <Link href={`/lens/${follower.handle.localName}`}>
-                            <li
-                              key={follower.handle.localName}
-                              className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out"
-                            >
+                          <Link key={follower.handle.localName} href={`/lens/${follower.handle.localName}`}>
+                            <li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
                               {follower.handle.localName}
                             </li>
                           </Link>
@@ -367,8 +502,10 @@ export default function Profile({ params }) {
                         isSearchable={true}
                         name="genre"
                         styles={style}
-                        // onChange={e => setItemType(e.value.toString())}
-                        // options={genresLabels}
+                        onChange={e => {
+                          setIdentity(e.value.toString());
+                        }}
+                        options={bought}
                       />
                     </label>
                   </div>
@@ -392,12 +529,50 @@ export default function Profile({ params }) {
                   </div>
                 </div>
 
-                <div className="justify-center">{/* <MarkDown story={story} setStory={setStory}/> */}</div>
+                <div className="justify-center">
+                  <div className="flex items-center justify-center w-full">
+                    <label
+                      for="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                          className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 16"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">MPV4 or GIF (MAX. 800x400px)</p>
+                      </div>
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        onChange={e => {
+                          uploadFileToIPFS(e.target.files[0]);
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
                 <div className="flex place-content-center m-auto p-2">
                   <input
                     type="submit"
                     value="Submit"
-                    onClick={() => handleCreatePOV()}
+                    disabled={uploading}
+                    onClick={() => handleCreateContent()}
                     className="btn m-auto mt-2 p-auto"
                   />
                 </div>
