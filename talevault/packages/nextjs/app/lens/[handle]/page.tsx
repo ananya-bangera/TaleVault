@@ -5,6 +5,7 @@ import Link from "next/link";
 import { NextResponse } from "next/server";
 import TALETRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/TaleTrade.json";
 import { LensClient, development, isRelaySuccess } from "@lens-protocol/client";
+import MDEditor from "@uiw/react-md-editor";
 import { BigNumber, ethers } from "ethers";
 import { encode } from "punycode";
 import Select from "react-select";
@@ -25,14 +26,17 @@ const style = {
 export default function Profile({ params }) {
   let viewHandle = params.handle; //others prfile handle
   let handle = localStorage.getItem("handle"); // my profile handle
-  const [identity, setIdentity] = useState("");
+  const [identity, setIdentity] = useState({});
   const [title, setTitle] = useState("");
   const [uploading, setUploading] = useState(false);
   const [cid, setCid] = useState("");
   const [publications, setPublications] = useState([]);
+  const [submitButton, setSubmitButton] = useState("Submit");
   let pinataApiKey = process.env.NEXT_PUBLIC_PINATA_API_KEY;
   let pinataApiSecret = process.env.NEXT_PUBLIC_PINATA_API_SECRET;
   const itemsOpt = new Map();
+  const axios = require("axios");
+  const FormData = require("form-data");
   console.log(viewHandle);
   console.log(handle);
   const [profileManager, setprofileManager] = useState(localStorage.getItem("profileManager"));
@@ -134,13 +138,13 @@ export default function Profile({ params }) {
       await checkFollowers();
     }
   }
-  const createContentMetadata = function (content: any, contentName: any, videoUri: any, videoType: any, tags: any) {
+  const createContentMetadata = function (titleContent: any, content: any, videoUri: any, videoType: any, tags: any) {
     return {
       version: "2.0.0",
       metadata_id: uuidv4(),
       description: "Created from LensBlog",
       content: content,
-      name: contentName,
+      name: titleContent,
       mainContentFocus: "ARTICLE",
       attributes: [],
       locale: "en-US",
@@ -170,14 +174,14 @@ export default function Profile({ params }) {
     console.log(`Stored content metadata with ${ipfsHash}`);
     return ipfsHash;
   }
-  async function getContentURI(content: any, contentName: any, vidUri: any, vidType: any, tags: any) {
+  async function getContentURI(titleContent: any, content: any, vidUri: any, vidType: any, tags: any) {
     let fullContentURI = "";
 
-    const contentMetadata = createContentMetadata(content, contentName, vidUri, vidType, tags);
+    const contentMetadata = createContentMetadata(titleContent, content, vidUri, vidType, tags);
 
     const BASE_64_PREFIX = "data:application/json;base64,";
     if (pinataApiSecret && pinataApiKey) {
-      const metadataIpfsHash = await pinMetadataToPinata(contentMetadata, contentName, pinataApiKey, pinataApiSecret);
+      const metadataIpfsHash = await pinMetadataToPinata(contentMetadata, titleContent, pinataApiKey, pinataApiSecret);
       fullContentURI = `ipfs://${metadataIpfsHash}`;
       console.log(fullContentURI);
     } else {
@@ -190,13 +194,15 @@ export default function Profile({ params }) {
     console.log(title);
     console.log(identity);
     console.log(cid);
+    setUploading(true);
+    setSubmitButton("Posting your Publication...");
     await LoginAccount();
     const isAuthenticated = await lensClient.authentication.isAuthenticated();
     console.log(isAuthenticated);
     if (isAuthenticated) {
       var vidUri = `ipfs://${cid}`;
       var vidType = "video/mpv4";
-      var fullContentURI = await getContentURI(title, title, vidUri, vidType, identity);
+      var fullContentURI = await getContentURI(title, identity.story, vidUri, vidType, identity.identify);
 
       const result = await lensClient.publication.postOnchain({
         contentURI: fullContentURI, // or arweave
@@ -205,33 +211,53 @@ export default function Profile({ params }) {
       const resultValue = result.unwrap();
 
       if (!isRelaySuccess(resultValue)) {
+        setUploading(false);
+        setSubmitButton("Submit");
         console.log(`Something went wrong`, resultValue);
         return;
       }
       console.log(`Transaction was successfully broadcasted with txId ${resultValue.txId}`);
     }
+    setUploading(false);
+    setSubmitButton("Submit");
   }
-  async function uploadFileToIPFS(fileToUpload: type) {
+  async function uploadFileToIPFS(fileToUpload: any) {
     try {
       setUploading(true);
-      const data = new FormData();
-      data.set("file", fileToUpload);
-      data.append("pinataMetadata", JSON.stringify({ name: "File to upload" }));
-      const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-        method: "POST",
+      setSubmitButton("Uploading File to IPFS...");
+      const formData = new FormData();
+
+      // const file = fs.createReadStream(src)
+      formData.append("file", fileToUpload);
+
+      const pinataMetadata = JSON.stringify({
+        name: fileToUpload.name,
+      });
+      formData.append("pinataMetadata", pinataMetadata);
+
+      const pinataOptions = JSON.stringify({
+        cidVersion: 0,
+      });
+      formData.append("pinataOptions", pinataOptions);
+      console.log("called");
+
+      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
+        maxBodyLength: "Infinity",
         headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
         },
-        body: data,
       });
-      const { IpfsHash } = await res.json();
-      console.log(IpfsHash);
-      setCid(IpfsHash);
+
+      console.log(res.data.IpfsHash);
+      setCid(res.data.IpfsHash);
       setUploading(false);
-      return NextResponse.json({ IpfsHash }, { status: 200 });
+      setSubmitButton("Submit");
+      return NextResponse.json({ IpfsHash: res.data.IpfsHash }, { status: 200 });
     } catch (e) {
       console.log(e);
       setUploading(false);
+      setSubmitButton("Submit");
       return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
   }
@@ -308,7 +334,7 @@ export default function Profile({ params }) {
       console.log(connectedAddress == owner);
       if (ans === connectedAddress && itemsOpt.get(pov.name) == undefined) {
         // console.log(itemsOpt.get("ananya"));
-        bought.push({ value: pov.identify, label: pov.name });
+        bought.push({ value: pov, label: pov.name });
         itemsOpt.set(pov.name, pov.identify);
       }
     });
@@ -316,22 +342,23 @@ export default function Profile({ params }) {
     console.log(itemsOpt);
   }
   async function checkPublications() {
-    await LoginAccount();
-    console.log("profile_id")
-    console.log(profile_id)
-    const isAuthenticated = await lensClient.authentication.isAuthenticated();
-    console.log(isAuthenticated);
-    if (isAuthenticated) {
-      // lensClient.publication.fetchAll
-      const result = await lensClient.publication.fetchAll({
-       where: {
-          from: [profile_id],
-        },
-      });
-      console.log(result.items);
-      setPublications(result.items);
-      console.log(result);
-    }
+    await checkProfile();
+    // await LoginAccount();
+    // console.log("profile_id")
+    // console.log(profile_id)
+    // const isAuthenticated = await lensClient.authentication.isAuthenticated();
+    // console.log(isAuthenticated);
+    // if (isAuthenticated) {
+    // lensClient.publication.fetchAll
+    const result = await lensClient.publication.fetchAll({
+      where: {
+        from: [profile_id],
+      },
+    });
+    console.log(result.items);
+    setPublications(result.items);
+    console.log(result);
+    // }
   }
 
   useEffect(() => {
@@ -523,7 +550,7 @@ export default function Profile({ params }) {
                         name="genre"
                         styles={style}
                         onChange={e => {
-                          setIdentity(e.value.toString());
+                          setIdentity(e.value);
                         }}
                         options={bought}
                       />
@@ -552,7 +579,7 @@ export default function Profile({ params }) {
                 <div className="justify-center">
                   <div className="flex items-center justify-center w-full">
                     <label
-                      for="dropzone-file"
+                      htmlFor="dropzone-file"
                       className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -565,8 +592,8 @@ export default function Profile({ params }) {
                         >
                           <path
                             stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             stroke-width="2"
                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
@@ -590,25 +617,46 @@ export default function Profile({ params }) {
                 <div className="flex place-content-center m-auto p-2">
                   <input
                     type="submit"
-                    value="Submit"
+                    value={submitButton}
                     disabled={uploading}
                     onClick={() => handleCreateContent()}
                     className="btn m-auto mt-2 p-auto"
                   />
                 </div>
               </div>
-              
             </div>
-            <div className="card bg-white p-3 shadow-sm rounded-sm">
-              {publications.map((publication)=>{
-                return (<li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
-                {publication.toString()}
-              </li>);
-              })}
+            <div className="card grid grid-cols-3 bg-white p-6 shadow-sm ">
+              {publications
+                .filter(publication => publication.__typename == "Post")
+                .map(publication => {
+                  console.log(publication);
+                  return (
+                    // <li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
+                    //   {publication.toString()}
+                    // </li>
+                    <>
+                      <Link
+                        key={publication.id}
+                        href={{
+                          pathname: `/stream`,
+                          query: {
+                            id: publication.id,
+                            connectedAddress: connectedAddress,
+                            profile_id: my_profile_id,
+                          },
+                        }}
+                      >
+                        <div className="block max-w-sm p-6 m-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {publication.metadata.title}
+                          </h5>
+                          {/* <MDEditor.Markdown className="bg-white  hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" source={publication.metadata.content} /> */}
+                        </div>
+                      </Link>
+                    </>
+                  );
+                })}
             </div>
- 
-
-            
           </div>
         </div>
       </div>
