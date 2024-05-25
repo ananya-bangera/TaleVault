@@ -11,7 +11,7 @@ import { encode } from "punycode";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import { useAccount, useWalletClient } from "wagmi";
-import { BoltIcon, GlobeAltIcon, TagIcon } from "@heroicons/react/24/outline";
+import { BoltIcon, GlobeAltIcon, PlusIcon, TagIcon } from "@heroicons/react/24/outline";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 let bought = [];
@@ -24,11 +24,13 @@ const style = {
   }),
 };
 export default function Profile({ params }) {
+
   let viewHandle = params.handle; //others prfile handle
   let handle = localStorage.getItem("handle"); // my profile handle
   const [identity, setIdentity] = useState({});
   const [title, setTitle] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [createCont, setcreateCont] = useState(false);
   const [cid, setCid] = useState("");
   const [publications, setPublications] = useState([]);
   const [submitButton, setSubmitButton] = useState("Submit");
@@ -151,7 +153,7 @@ export default function Profile({ params }) {
       appId: "lensblog",
       video: videoUri,
       imageMimeType: videoType,
-      tags: [tags],
+      tags: tags,
     };
   };
   async function pinMetadataToPinata(metadata: any, contentName: any, pinataApiKey: any, pinataApiSecret: any) {
@@ -202,7 +204,7 @@ export default function Profile({ params }) {
     if (isAuthenticated) {
       var vidUri = `ipfs://${cid}`;
       var vidType = "video/mpv4";
-      var fullContentURI = await getContentURI(title, identity.story, vidUri, vidType, identity.identify);
+      var fullContentURI = await getContentURI(title, identity.story, vidUri, vidType, [identity.identify,identity.creator]);
 
       const result = await lensClient.publication.postOnchain({
         contentURI: fullContentURI, // or arweave
@@ -225,11 +227,12 @@ export default function Profile({ params }) {
     try {
       setUploading(true);
       setSubmitButton("Uploading File to IPFS...");
+      console.log("start...");
       const formData = new FormData();
 
       // const file = fs.createReadStream(src)
       formData.append("file", fileToUpload);
-
+      console.log("called1");
       const pinataMetadata = JSON.stringify({
         name: fileToUpload.name,
       });
@@ -340,6 +343,7 @@ export default function Profile({ params }) {
     });
     console.log(bought);
     console.log(itemsOpt);
+    setcreateCont(true);
   }
   async function checkPublications() {
     await checkProfile();
@@ -475,9 +479,9 @@ export default function Profile({ params }) {
               <button className="btn m-8" onClick={() => followProfileID()}>
                 Follow
               </button>
-              <button className="btn m-8" onClick={() => handleGetPOVs()}>
-                handleGetPOVs
-              </button>
+              {/* <button className="btn m-8" onClick={() => handleGetPOVs()}>
+                HandlePOVS
+              </button> */}
             </div>
 
             <div className="my-4"></div>
@@ -527,135 +531,150 @@ export default function Profile({ params }) {
           </div>
           <div className="w-full md:w-9/12 mx-2 h-64">
             <div className="card items-center w-full  m-4 shadow-xl  p-8  dark:bg-gray-700 bg-secondary ">
-              <h1 className="card-title font-mono ">Create Publication</h1>
-              <div className=" items-center w-full p-8 ">
-                <div className="flex flex-row items-center justify-evenly mb-8 w-full">
-                  <label className="input flex items-center m-2">
-                    <BoltIcon className="w-4 h-4 m-2" />
-                    <input
-                      type="text"
-                      className=" input items-center border-0"
-                      placeholder="Title for your Content"
-                      onChange={e => setTitle(e.target.value)}
-                    />
-                  </label>
-                  <div className="dropdown-right m-2 inline-flex items-center w-2/5">
-                    <label className="input flex items-center min-w-full">
-                      <TagIcon className="w-4 h-4 m-2" />
-                      <Select
-                        className="basic-single rounded-3xl border-0 w-full"
-                        classNamePrefix="select"
-                        isClearable={true}
-                        isSearchable={true}
-                        name="genre"
-                        styles={style}
-                        onChange={e => {
-                          setIdentity(e.value);
-                        }}
-                        options={bought}
-                      />
-                    </label>
-                  </div>
-                  <div className="dropdown-right m-2 inline-flex items-center w-2/5">
-                    <label className="input flex items-center min-w-full">
-                      <GlobeAltIcon className="w-4 h-4 m-2" />
-                      {/* <Select
-                className="basic-single rounded-3xl border-0 w-full bg-base-200"
-                classNamePrefix="select"
-                isClearable={true}
-                isSearchable={true}
-                name="network"
-                styles={style}
-                onChange={(e)=>setNetwork(e.value.toString())}
-                options={networkLabels}
-              /> */}
-                    </label>
-                  </div>
-                  <div className="m-2 w-1/4">
-                    {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
-                  </div>
-                </div>
-
-                <div className="justify-center">
-                  <div className="flex items-center justify-center w-full">
-                    <label
-                      htmlFor="dropzone-file"
-                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 16"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            stroke-width="2"
-                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+              {createCont ? (
+                <>
+                  <h1 className="card-title font-mono ">Create Publication</h1>
+                  <div className=" items-center w-full p-8 ">
+                    <div className="flex flex-row items-center justify-evenly mb-8 w-full">
+                      <label className="input flex items-center m-2">
+                        <BoltIcon className="w-4 h-4 m-2" />
+                        <input
+                          type="text"
+                          className=" input items-center border-0"
+                          placeholder="Title for your Content"
+                          onChange={e => setTitle(e.target.value)}
+                        />
+                      </label>
+                      <div className="dropdown-right m-2 inline-flex items-center w-2/5">
+                        <label className="input flex items-center min-w-full">
+                          <TagIcon className="w-4 h-4 m-2" />
+                          <Select
+                            className="basic-single rounded-3xl border-0 w-full"
+                            classNamePrefix="select"
+                            isClearable={true}
+                            isSearchable={true}
+                            name="genre"
+                            styles={style}
+                            onChange={e => {
+                              setIdentity(e.value);
+                            }}
+                            options={bought}
                           />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span className="font-semibold">Click to upload</span> or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">MPV4 or GIF (MAX. 800x400px)</p>
+                        </label>
                       </div>
+                      <div className="dropdown-right m-2 inline-flex items-center w-2/5">
+                        <label className="input flex items-center min-w-full">
+                          <GlobeAltIcon className="w-4 h-4 m-2" />
+                          {/* <Select
+                 className="basic-single rounded-3xl border-0 w-full bg-base-200"
+                 classNamePrefix="select"
+                 isClearable={true}
+                 isSearchable={true}
+                 name="network"
+                 styles={style}
+                 onChange={(e)=>setNetwork(e.value.toString())}
+                 options={networkLabels}
+               /> */}
+                        </label>
+                      </div>
+                      <div className="m-2 w-1/4">
+                        {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
+                      </div>
+                    </div>
+
+                    <div className="justify-center">
+                      <div className="flex items-center justify-center w-full">
+                        <label
+                          htmlFor="dropzone-file"
+                          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg
+                              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 20 16"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                              />
+                            </svg>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">MPV4 or GIF (MAX. 800x400px)</p>
+                          </div>
+                          <input
+                            id="dropzone-file"
+                            type="file"
+                            onChange={e => {
+                              uploadFileToIPFS(e.target.files[0]);
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <div className="flex place-content-center m-auto p-2">
                       <input
-                        id="dropzone-file"
-                        type="file"
-                        onChange={e => {
-                          uploadFileToIPFS(e.target.files[0]);
-                        }}
-                        className="hidden"
+                        type="submit"
+                        value={submitButton}
+                        disabled={uploading}
+                        onClick={() => handleCreateContent()}
+                        className="btn m-auto mt-2 p-auto"
                       />
-                    </label>
+                    </div>
                   </div>
-                </div>
-                <div className="flex place-content-center m-auto p-2">
-                  <input
-                    type="submit"
-                    value={submitButton}
-                    disabled={uploading}
-                    onClick={() => handleCreateContent()}
-                    className="btn m-auto mt-2 p-auto"
-                  />
-                </div>
-              </div>
+                </>
+              ) : (
+                <button className="btn m-8 rounded-full" onClick={() => handleGetPOVs()}>
+                  Create Publication
+                </button>
+              )}
             </div>
             <div className="card grid grid-cols-3 bg-white p-6 shadow-sm ">
               {publications
-                .filter(publication => publication.__typename == "Post")
-                .map(publication => {
-                  console.log(publication);
-                  return (
-                    // <li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
-                    //   {publication.toString()}
-                    // </li>
-                    <>
-                      <Link
-                        key={publication.id}
-                        href={{
-                          pathname: `/stream`,
-                          query: {
-                            id: publication.id,
-                            connectedAddress: connectedAddress,
-                            profile_id: my_profile_id,
-                          },
-                        }}
-                      >
-                        <div className="block max-w-sm p-6 m-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            {publication.metadata.title}
-                          </h5>
-                          {/* <MDEditor.Markdown className="bg-white  hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" source={publication.metadata.content} /> */}
-                        </div>
-                      </Link>
-                    </>
-                  );
-                })}
+                  .filter(publication => publication.__typename == "Post").length == 0 ? (
+                <h5 className="mb-2 text-lg m-auto  tracking-tight text-gray-900 dark:text-white">
+                  No Publications Yet ...
+                </h5>
+              ) : (
+                publications
+                  .filter(publication => publication.__typename == "Post")
+                  .map(publication => {
+                    console.log(publication);
+                    my_profile_id = localStorage.getItem("profile_id");
+                    return (
+                      // <li className="px-4 py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
+                      //   {publication.toString()}
+                      // </li>
+                      <>
+                        <Link
+                          key={publication.id}
+                          href={{
+                            pathname: `/stream`,
+                            query: {
+                              id: publication.id,
+                              connectedAddress: connectedAddress,
+                              profile_id: my_profile_id,
+                            },
+                          }}
+                        >
+                          <div className="block max-w-sm p-6 m-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                              {publication.metadata.title}
+                            </h5>
+                          </div>
+                        </Link>
+                      </>
+                    );
+                  })
+              )}
             </div>
           </div>
         </div>

@@ -42,7 +42,7 @@ export default function Test() {
   }
 
   async function LoginAccount() {
-    profile_id = "0x0265";
+    profile_id = "0x025a";
     const { id, text } = await lensClient.authentication.generateChallenge({
       signedBy: account.address ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
       for: profile_id, // e.g "0x01"
@@ -232,12 +232,12 @@ export default function Test() {
     if (isAuthenticated) {
       // lensClient.publication.fetchAll
       const result = await lensClient.publication.fetchAll({
-        // forId: '0x0203'//'9300e17e-987f-4df2-b0c9-519609f6710c'
+        // forId: '0x0202-0x0d'//'9300e17e-987f-4df2-b0c9-519609f6710c'
         // forTxHash: "0xa552309a7f75258aeab723d441d0e5bc771eef2dcc3e0e9ce802c3b3d942dabc",
         // forTxHash: "0xdf09971dd9941ab3fcb83293dc9afb41f5157ff7610dc9a9eca3ae8939f6e421",
         // forId: 'ca91c8f1-4b0f-4ff6-8774-5a95c93a4551', //"0x78ba2fbd57eb339719d0af173b7709d93b9125d2d5910cf71e0ad4505901a5a9"
         where: {
-          from: ["0x0202"],
+          from: ["0x025a"],
         },
       });
       console.log(result);
@@ -273,6 +273,11 @@ export default function Test() {
     // sharingLink:"ipfs://QmZ1A9npSQvV72nYy9UJb2K42J4U7P9HXM1moW6R2L5sLG"
     // })
     //0x0202-0x0d
+//add reaction
+    // await client.publication.reactions.remove({
+    //   for: '0x02-0x01',
+    //   reaction: PublicationReactionType.Upvote,
+    // });
 
     const isAuthenticated = await lensClient.authentication.isAuthenticated();
     console.log(isAuthenticated);
@@ -284,7 +289,8 @@ export default function Test() {
       var fullContentURI = await getContentURI(content, contentName, imageUri, imageType);
 
       const result = await lensClient.publication.commentOnchain({
-        commentOn: "0x0202-0x0d",
+        // commentOn: "0x0202-0x0d",
+        commentOn: "0x0265-0x06",
         contentURI: fullContentURI, // or arweave
       });
 

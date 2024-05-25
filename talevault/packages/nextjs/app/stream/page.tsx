@@ -7,10 +7,12 @@ import Items_Countdown_timer from "./_components/items_countdown_timer";
 import Likes from "./_components/likes";
 import { LensClient, development, isRelaySuccess } from "@lens-protocol/client";
 import Tippy from "@tippyjs/react";
+import MDEditor from "@uiw/react-md-editor";
 import { BigNumber, ethers } from "ethers";
 import { encode } from "punycode";
 import ReactPlayer from "react-player";
 import { v4 as uuidv4 } from "uuid";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export default function DisplayPOV(context) {
   let image = "QmZ1A9npSQvV72nYy9UJb2K42J4U7P9HXM1moW6R2L5sLG";
@@ -25,21 +27,24 @@ export default function DisplayPOV(context) {
   const [publication, setPublication] = useState();
   const [commentList, setcommentList] = useState([]);
   const [comment, setcomment] = useState("");
+  const [author, setauthor] = useState("");
+  const [publisher, setpublisher] = useState("");
   let likes = 46;
   let title = "Wizard World";
+
   // title: publication.metadata.title,
   //                     content: publication.metadata.content,
   //                     uri: publication.metadata.rawURI,
   //                     identify: publication.metadata.tags[0],
   //                     creator: publication.by.localName
-  let { id, my_profile_id, connectedAddress } = context.searchParams;
+  let { id, profile_id, connectedAddress } = context.searchParams;
   const lensClient = new LensClient({
     environment: development,
   });
   async function LoginAccount() {
     const { id, text } = await lensClient.authentication.generateChallenge({
       signedBy: connectedAddress ?? "", // e.g "0xdfd7D26fd33473F475b57556118F8251464a24eb"
-      for: my_profile_id, // e.g "0x01"
+      for: profile_id, // e.g "0x01"
     });
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -81,12 +86,60 @@ export default function DisplayPOV(context) {
       const value2 = await response2.json();
       console.log(result);
       console.log(value2.video.toString().slice(7));
+      setauthor(result.metadata.tags[1]);
+      setpublisher(result?.by.handle.ownedBy);
       setCid(value2.video.toString().slice(7));
     }
   }
   useEffect(() => {
     checkPublications();
+    checkComments();
   }, []);
+
+  async function voteForContent() {
+    console.log(author);
+    console.log(publisher);
+    const strEther = "0.01";
+    const provider2 = new ethers.providers.Web3Provider(window.ethereum);
+    const providerRPC = {
+      moonbeam: {
+        name: 'moonbeam',
+        rpc: 'INSERT_RPC_API_ENDPOINT', // Insert your RPC URL here
+        chainId: 1284, // 0x504 in hex,
+      },
+    };
+    // 3. Create ethers provider
+    const provider = new ethers.JsonRpcProvider(providerRPC.moonbeam.rpc, {
+      chainId: providerRPC.moonbeam.chainId,
+      name: providerRPC.moonbeam.name,
+    });
+    const gasfee=await provider.getGasPrice();
+    const params = [
+      {
+        from: connectedAddress,
+        to: author,
+        value: ethers.utils.parseUnits(strEther, "ether").toHexString(),
+        gasLimit: ethers.utils.hexlify(10000),
+        gasPrice: ethers.utils.hexlify(gasfee),
+      },
+    ];
+
+    const transactionHash = await provider.send("eth_sendTransaction", params);
+    console.log("transactionHash is " + transactionHash);
+  
+    const params2 = [
+      {
+        from: connectedAddress,
+        to: publisher,
+        value: ethers.utils.parseUnits(strEther, "ether").toHexString(),
+        gasLimit: ethers.utils.hexlify(10000),
+        gasPrice: ethers.utils.hexlify(gasfee),
+      },
+    ];
+
+    const transactionHash2 = await provider.send("eth_sendTransaction", params2);
+    console.log("transactionHash is " + transactionHash2);
+  }
   const createContentMetadata = function (content: any, contentName: any, imageUri: any, imageType: any) {
     return {
       version: "2.0.0",
@@ -153,8 +206,9 @@ export default function DisplayPOV(context) {
     await LoginAccount();
     const isAuthenticated = await lensClient.authentication.isAuthenticated();
     console.log(isAuthenticated);
+    console.log(id);
     const result = await lensClient.publication.commentOnchain({
-      commentOn: id,
+      commentOn: id.toString(),
       contentURI: fullContentURI, // or arweave
     });
 
@@ -180,10 +234,18 @@ export default function DisplayPOV(context) {
       // lensClient.publication.fetchAll
       const result = await lensClient.publication.fetchAll({
         where: {
-          from: [prof_id],
+          from: [profile_id],
         },
       });
       console.log(result);
+      let temp = result.items.filter((item: any) => {
+        if (item.commentOn) {
+          return item.commentOn.id == id && item.__typename == "Comment";
+        }
+      });
+      console.log(temp);
+
+      setcommentList(temp);
     }
   }
 
@@ -329,14 +391,14 @@ export default function DisplayPOV(context) {
               <Link href="#">
                 <button
                   className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-black transition-all"
-                  //   onClick={() => voteForContent()}
+                  onClick={() => voteForContent()}
                 >
                   Vote Now
                 </button>
               </Link>
             </div>
           </div>
-          <div className="card bg-white p-6 shadow-sm ">
+          <div className="card m-8 w-2/5 bg-white p-6 shadow-sm ">
             <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <label htmlFor="comment" className="sr-only">
                 Your comment
@@ -352,21 +414,21 @@ export default function DisplayPOV(context) {
             <button type="submit" onClick={() => addComment()} className="btn m-auto">
               Post comment
             </button>
-            <div className="card bg-gray-100 m-6 p-4">
-              <p className="text-gray-500 dark:text-gray-400">
-                The article covers the essentials, challenges, myths and stages the UX designer should consider while
-                creating the design strategy.
-              </p>
-              <div className="flex items-center mt-4 space-x-4">
-                {/* <button type="button"
-                className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-                <svg className="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                </svg>
-                Reply
-            </button> */}
-              </div>
-            </div>
+
+            {commentList.map((item: any) => {
+              return (
+                <div className="card bg-gray-100 m-2 p-4">
+                  <p className="m-2 text-gray-500 dark:text-gray-400">{item.metadata.content}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="card m-8 w-2/5 bg-white p-6 shadow-sm ">
+            {" "}
+            <MDEditor.Markdown
+              className="bg-white m-8 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+              source={publication.metadata.content}
+            />
           </div>
         </div>
       </div>
