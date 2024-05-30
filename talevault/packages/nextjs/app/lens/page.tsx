@@ -318,7 +318,7 @@ export default function Test() {
   const [data, setData] = React.useState("");
   return (
     <div>
-      <button className="btn" onClick={() => getProfile()}>
+      {/* <button className="btn" onClick={() => getProfile()}>
         Get
       </button>
       <button className="btn" onClick={() => checkProfile()}>
@@ -370,7 +370,7 @@ export default function Test() {
       </button>
       <button className="btn" onClick={() => createMirror()}>
         createMirror
-      </button>
+      </button> */}
       {(isauthdone||handle!=null)? <Profile params={handle} /> :  <Login isauthdone={isauthdone} setisauthdone={setisauthdone} />}
      
       {/* <Profile /> */}
