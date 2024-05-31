@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import TALETRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/TaleTrade.json";
+import TRADE_CONTRACT from "../../../../hardhat/deployments/polygonAmoy/Trade.json";
 import MarkDown from "./MarkDown";
 import { BigNumber, ethers } from "ethers";
 import "flowbite";
@@ -785,9 +786,11 @@ export default function ViewPOV() {
       const USDC = new ethers.Contract(USDC_ADDRESS, ABI, signer);
       //const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
       // console.log(contracts);
+      var amount = parseFloat(pov.amt.toString()) ;
+      console.log(amount);
       if (pov.network === "Sepolia") {
-        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
-
+        const contracts = await USDC.transfer(TRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
+        await contracts.wait();
         console.log("Started..");
         var reply2 = await writeYourContractAsync2({
           functionName: "transferTokensPayLINK",
@@ -795,13 +798,13 @@ export default function ViewPOV() {
             BigNumber.from("16015286601757825753").toBigInt(),
             pov.creator,
             USDC_ADDRESS,
-            BigNumber.from(parseFloat(pov.amt.toString()) / 10 ** 6).toBigInt(),
+            BigNumber.from(amount.toString()).toBigInt(),
           ],
         });
         console.log(reply2);
       } else if (pov.network === "Fuji") {
-        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
-
+        const contracts = await USDC.transfer(TRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
+        await contracts.wait();
         console.log("Started..");
         var reply2 = await writeYourContractAsync2({
           functionName: "transferTokensPayLINK",
@@ -809,7 +812,7 @@ export default function ViewPOV() {
             BigNumber.from("14767482510784806043").toBigInt(),
             pov.creator,
             USDC_ADDRESS,
-            BigNumber.from(parseFloat(pov.amt.toString()) / 10 ** 6).toBigInt(),
+            BigNumber.from(amount.toString()).toBigInt(),
           ],
         });
         console.log(reply2);
