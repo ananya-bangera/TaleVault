@@ -558,21 +558,7 @@ export default function Profile({ params }) {
                           />
                         </label>
                       </div>
-                      <div className="dropdown-right m-2 inline-flex items-center w-2/5">
-                        <label className="input flex items-center min-w-full">
-                          <GlobeAltIcon className="w-4 h-4 m-2" />
-                          {/* <Select
-                 className="basic-single rounded-3xl border-0 w-full bg-base-200"
-                 classNamePrefix="select"
-                 isClearable={true}
-                 isSearchable={true}
-                 name="network"
-                 styles={style}
-                 onChange={(e)=>setNetwork(e.value.toString())}
-                 options={networkLabels}
-               /> */}
-                        </label>
-                      </div>
+                    
                       <div className="m-2 w-1/4">
                         {/* <EtherInput value={ethAmount} onChange={amount => setEthAmount(amount)} /> */}
                       </div>

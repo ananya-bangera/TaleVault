@@ -786,9 +786,7 @@ export default function ViewPOV() {
       //const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
       // console.log(contracts);
       if (pov.network === "Sepolia") {
-        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amount).toBigInt(), {
-          gasLimit: 5000000,
-        });
+        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
 
         console.log("Started..");
         var reply2 = await writeYourContractAsync2({
@@ -797,7 +795,7 @@ export default function ViewPOV() {
             BigNumber.from("16015286601757825753").toBigInt(),
             pov.creator,
             USDC_ADDRESS,
-            BigNumber.from(pov.amt).toBigInt(),
+            BigNumber.from(parseFloat(pov.amt.toString()) / 10 ** 6).toBigInt(),
           ],
         });
         console.log(reply2);
@@ -811,7 +809,7 @@ export default function ViewPOV() {
             BigNumber.from("14767482510784806043").toBigInt(),
             pov.creator,
             USDC_ADDRESS,
-            BigNumber.from(pov.amt).toBigInt(),
+            BigNumber.from(parseFloat(pov.amt.toString()) / 10 ** 6).toBigInt(),
           ],
         });
         console.log(reply2);
