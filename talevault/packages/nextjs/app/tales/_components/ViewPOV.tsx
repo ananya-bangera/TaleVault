@@ -144,24 +144,24 @@ export default function ViewPOV() {
 
   const { writeContractAsync: writeYourContractAsync } = useScaffoldWriteContract("TaleTrade");
   const { writeContractAsync: writeYourContractAsync2 } = useScaffoldWriteContract("Trade");
-
+  async function check() {
+    var reply3 = await writeYourContractAsync2({
+      functionName: "allowlistDestinationChain",
+      args: [BigNumber.from("14767482510784806043").toBigInt(), true],
+    });
+  }
   async function handleBuyPov(pov: any) {
     try {
       console.log(pov);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const BnM_ADDRESS = "0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4";
+      const USDC_ADDRESS = "0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582";
       const ABI = [
         {
           constant: true,
           inputs: [],
           name: "name",
-          outputs: [
-            {
-              name: "",
-              type: "string",
-            },
-          ],
+          outputs: [{ name: "", type: "string" }],
           payable: false,
           stateMutability: "view",
           type: "function",
@@ -169,22 +169,11 @@ export default function ViewPOV() {
         {
           constant: false,
           inputs: [
-            {
-              name: "_spender",
-              type: "address",
-            },
-            {
-              name: "_value",
-              type: "uint256",
-            },
+            { name: "_spender", type: "address" },
+            { name: "_value", type: "uint256" },
           ],
           name: "approve",
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-            },
-          ],
+          outputs: [{ name: "", type: "bool" }],
           payable: false,
           stateMutability: "nonpayable",
           type: "function",
@@ -193,39 +182,38 @@ export default function ViewPOV() {
           constant: true,
           inputs: [],
           name: "totalSupply",
-          outputs: [
-            {
-              name: "",
-              type: "uint256",
-            },
-          ],
+          outputs: [{ name: "", type: "uint256" }],
           payable: false,
           stateMutability: "view",
           type: "function",
         },
         {
           constant: false,
+          inputs: [{ name: "_account", type: "address" }],
+          name: "unBlacklist",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
           inputs: [
-            {
-              name: "_from",
-              type: "address",
-            },
-            {
-              name: "_to",
-              type: "address",
-            },
-            {
-              name: "_value",
-              type: "uint256",
-            },
+            { name: "_from", type: "address" },
+            { name: "_to", type: "address" },
+            { name: "_value", type: "uint256" },
           ],
           name: "transferFrom",
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-            },
-          ],
+          outputs: [{ name: "", type: "bool" }],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "minter", type: "address" }],
+          name: "removeMinter",
+          outputs: [{ name: "", type: "bool" }],
           payable: false,
           stateMutability: "nonpayable",
           type: "function",
@@ -234,31 +222,130 @@ export default function ViewPOV() {
           constant: true,
           inputs: [],
           name: "decimals",
-          outputs: [
-            {
-              name: "",
-              type: "uint8",
-            },
+          outputs: [{ name: "", type: "uint8" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [
+            { name: "_name", type: "string" },
+            { name: "_symbol", type: "string" },
+            { name: "_currency", type: "string" },
+            { name: "_decimals", type: "uint8" },
+            { name: "_masterMinter", type: "address" },
+            { name: "_pauser", type: "address" },
+            { name: "_blacklister", type: "address" },
+            { name: "_owner", type: "address" },
           ],
+          name: "initialize",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "masterMinter",
+          outputs: [{ name: "", type: "address" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [],
+          name: "unpause",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [
+            { name: "_to", type: "address" },
+            { name: "_amount", type: "uint256" },
+          ],
+          name: "mint",
+          outputs: [{ name: "", type: "bool" }],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "_amount", type: "uint256" }],
+          name: "burn",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [
+            { name: "minter", type: "address" },
+            { name: "minterAllowedAmount", type: "uint256" },
+          ],
+          name: "configureMinter",
+          outputs: [{ name: "", type: "bool" }],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "_newPauser", type: "address" }],
+          name: "updatePauser",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "paused",
+          outputs: [{ name: "", type: "bool" }],
           payable: false,
           stateMutability: "view",
           type: "function",
         },
         {
           constant: true,
-          inputs: [
-            {
-              name: "_owner",
-              type: "address",
-            },
-          ],
+          inputs: [{ name: "account", type: "address" }],
           name: "balanceOf",
-          outputs: [
-            {
-              name: "balance",
-              type: "uint256",
-            },
-          ],
+          outputs: [{ name: "", type: "uint256" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [],
+          name: "pause",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [{ name: "minter", type: "address" }],
+          name: "minterAllowance",
+          outputs: [{ name: "", type: "uint256" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "owner",
+          outputs: [{ name: "", type: "address" }],
           payable: false,
           stateMutability: "view",
           type: "function",
@@ -267,12 +354,16 @@ export default function ViewPOV() {
           constant: true,
           inputs: [],
           name: "symbol",
-          outputs: [
-            {
-              name: "",
-              type: "string",
-            },
-          ],
+          outputs: [{ name: "", type: "string" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "pauser",
+          outputs: [{ name: "", type: "address" }],
           payable: false,
           stateMutability: "view",
           type: "function",
@@ -280,72 +371,171 @@ export default function ViewPOV() {
         {
           constant: false,
           inputs: [
-            {
-              name: "_to",
-              type: "address",
-            },
-            {
-              name: "_value",
-              type: "uint256",
-            },
+            { name: "_to", type: "address" },
+            { name: "_value", type: "uint256" },
           ],
           name: "transfer",
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-            },
-          ],
+          outputs: [{ name: "", type: "bool" }],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "_newMasterMinter", type: "address" }],
+          name: "updateMasterMinter",
+          outputs: [],
           payable: false,
           stateMutability: "nonpayable",
           type: "function",
         },
         {
           constant: true,
-          inputs: [
-            {
-              name: "_owner",
-              type: "address",
-            },
-            {
-              name: "_spender",
-              type: "address",
-            },
-          ],
-          name: "allowance",
-          outputs: [
-            {
-              name: "",
-              type: "uint256",
-            },
-          ],
+          inputs: [{ name: "account", type: "address" }],
+          name: "isMinter",
+          outputs: [{ name: "", type: "bool" }],
           payable: false,
           stateMutability: "view",
           type: "function",
         },
         {
-          payable: true,
-          stateMutability: "payable",
-          type: "fallback",
+          constant: false,
+          inputs: [{ name: "_newBlacklister", type: "address" }],
+          name: "updateBlacklister",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "blacklister",
+          outputs: [{ name: "", type: "address" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [
+            { name: "owner", type: "address" },
+            { name: "spender", type: "address" },
+          ],
+          name: "allowance",
+          outputs: [{ name: "", type: "uint256" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [],
+          name: "currency",
+          outputs: [{ name: "", type: "string" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "newOwner", type: "address" }],
+          name: "transferOwnership",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ name: "_account", type: "address" }],
+          name: "blacklist",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          constant: true,
+          inputs: [{ name: "_account", type: "address" }],
+          name: "isBlacklisted",
+          outputs: [{ name: "", type: "bool" }],
+          payable: false,
+          stateMutability: "view",
+          type: "function",
         },
         {
           anonymous: false,
           inputs: [
-            {
-              indexed: true,
-              name: "owner",
-              type: "address",
-            },
-            {
-              indexed: true,
-              name: "spender",
-              type: "address",
-            },
-            {
-              indexed: false,
-              name: "value",
-              type: "uint256",
-            },
+            { indexed: true, name: "minter", type: "address" },
+            { indexed: true, name: "to", type: "address" },
+            { indexed: false, name: "amount", type: "uint256" },
+          ],
+          name: "Mint",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: "burner", type: "address" },
+            { indexed: false, name: "amount", type: "uint256" },
+          ],
+          name: "Burn",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: "minter", type: "address" },
+            { indexed: false, name: "minterAllowedAmount", type: "uint256" },
+          ],
+          name: "MinterConfigured",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "oldMinter", type: "address" }],
+          name: "MinterRemoved",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "newMasterMinter", type: "address" }],
+          name: "MasterMinterChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "_account", type: "address" }],
+          name: "Blacklisted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "_account", type: "address" }],
+          name: "UnBlacklisted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "newBlacklister", type: "address" }],
+          name: "BlacklisterChanged",
+          type: "event",
+        },
+        { anonymous: false, inputs: [], name: "Pause", type: "event" },
+        { anonymous: false, inputs: [], name: "Unpause", type: "event" },
+        {
+          anonymous: false,
+          inputs: [{ indexed: true, name: "newAddress", type: "address" }],
+          name: "PauserChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: "owner", type: "address" },
+            { indexed: true, name: "spender", type: "address" },
+            { indexed: false, name: "value", type: "uint256" },
           ],
           name: "Approval",
           type: "event",
@@ -353,71 +543,280 @@ export default function ViewPOV() {
         {
           anonymous: false,
           inputs: [
-            {
-              indexed: true,
-              name: "from",
-              type: "address",
-            },
-            {
-              indexed: true,
-              name: "to",
-              type: "address",
-            },
-            {
-              indexed: false,
-              name: "value",
-              type: "uint256",
-            },
+            { indexed: false, name: "previousOwner", type: "address" },
+            { indexed: false, name: "newOwner", type: "address" },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: "from", type: "address" },
+            { indexed: true, name: "to", type: "address" },
+            { indexed: false, name: "value", type: "uint256" },
           ],
           name: "Transfer",
           type: "event",
         },
       ];
-      const BnM = new ethers.Contract(BnM_ADDRESS, ABI, signer);
-      const contracts = await BnM.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
+      // const ABI = [
+      //   {
+      //     constant: true,
+      //     inputs: [],
+      //     name: "name",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "string",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: false,
+      //     inputs: [
+      //       {
+      //         name: "_spender",
+      //         type: "address",
+      //       },
+      //       {
+      //         name: "_value",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     name: "approve",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "bool",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "nonpayable",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: true,
+      //     inputs: [],
+      //     name: "totalSupply",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: false,
+      //     inputs: [
+      //       {
+      //         name: "_from",
+      //         type: "address",
+      //       },
+      //       {
+      //         name: "_to",
+      //         type: "address",
+      //       },
+      //       {
+      //         name: "_value",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     name: "transferFrom",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "bool",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "nonpayable",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: true,
+      //     inputs: [],
+      //     name: "decimals",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "uint8",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: true,
+      //     inputs: [
+      //       {
+      //         name: "_owner",
+      //         type: "address",
+      //       },
+      //     ],
+      //     name: "balanceOf",
+      //     outputs: [
+      //       {
+      //         name: "balance",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: true,
+      //     inputs: [],
+      //     name: "symbol",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "string",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: false,
+      //     inputs: [
+      //       {
+      //         name: "_to",
+      //         type: "address",
+      //       },
+      //       {
+      //         name: "_value",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     name: "transfer",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "bool",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "nonpayable",
+      //     type: "function",
+      //   },
+      //   {
+      //     constant: true,
+      //     inputs: [
+      //       {
+      //         name: "_owner",
+      //         type: "address",
+      //       },
+      //       {
+      //         name: "_spender",
+      //         type: "address",
+      //       },
+      //     ],
+      //     name: "allowance",
+      //     outputs: [
+      //       {
+      //         name: "",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     payable: false,
+      //     stateMutability: "view",
+      //     type: "function",
+      //   },
+      //   {
+      //     payable: true,
+      //     stateMutability: "payable",
+      //     type: "fallback",
+      //   },
+      //   {
+      //     anonymous: false,
+      //     inputs: [
+      //       {
+      //         indexed: true,
+      //         name: "owner",
+      //         type: "address",
+      //       },
+      //       {
+      //         indexed: true,
+      //         name: "spender",
+      //         type: "address",
+      //       },
+      //       {
+      //         indexed: false,
+      //         name: "value",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     name: "Approval",
+      //     type: "event",
+      //   },
+      //   {
+      //     anonymous: false,
+      //     inputs: [
+      //       {
+      //         indexed: true,
+      //         name: "from",
+      //         type: "address",
+      //       },
+      //       {
+      //         indexed: true,
+      //         name: "to",
+      //         type: "address",
+      //       },
+      //       {
+      //         indexed: false,
+      //         name: "value",
+      //         type: "uint256",
+      //       },
+      //     ],
+      //     name: "Transfer",
+      //     type: "event",
+      //   },
+      // ];
+      const USDC = new ethers.Contract(USDC_ADDRESS, ABI, signer);
+      //const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
       // console.log(contracts);
       if (pov.network === "Sepolia") {
+        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amount).toBigInt(), {
+          gasLimit: 5000000,
+        });
+
         console.log("Started..");
         var reply2 = await writeYourContractAsync2({
           functionName: "transferTokensPayLINK",
           args: [
             BigNumber.from("16015286601757825753").toBigInt(),
             pov.creator,
-            "0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4",
+            USDC_ADDRESS,
             BigNumber.from(pov.amt).toBigInt(),
           ],
         });
         console.log(reply2);
-      } else if (pov.network === "Amoy") {
-        try {
-          console.log("Started..");
-          var reply2 = await writeYourContractAsync2({
-            functionName: "transferTokensPayLINK",
-            args: [
-              BigNumber.from("16015286601757825753").toBigInt(),
-              pov.creator,
-              "0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4",
-              BigNumber.from(pov.amt).toBigInt(),
-            ],
-          });
-          console.log(reply2);
-        } catch (e) {
-          console.log(e);
-        }
+      } else if (pov.network === "Fuji") {
+        const contracts = await USDC.transfer(TALETRADE_CONTRACT.address, BigNumber.from(pov.amt).toBigInt());
+
+        console.log("Started..");
+        var reply2 = await writeYourContractAsync2({
+          functionName: "transferTokensPayLINK",
+          args: [
+            BigNumber.from("14767482510784806043").toBigInt(),
+            pov.creator,
+            USDC_ADDRESS,
+            BigNumber.from(pov.amt).toBigInt(),
+          ],
+        });
+        console.log(reply2);
       } else {
-        try {
-          await writeYourContractAsync2({
-            functionName: "transferTokensPayLINK",
-            args: [
-              BigNumber.from("16015286601757825753").toBigInt(),
-              pov.creator,
-              "0xcab0EF91Bee323d1A617c0a027eE753aFd6997E4",
-              pov.amt,
-            ],
-          });
-        } catch (e) {
-          console.log(e);
-        }
+        const contracts = await USDC.transfer(pov.creator, BigNumber.from(pov.amt).toBigInt());
       }
     } catch (e) {
       console.error("Error setting greeting:", e);
@@ -449,6 +848,12 @@ export default function ViewPOV() {
 
   return (
     <div className="grid grid-cols-3">
+      {/* <input
+                    type="submit"
+                    onClick={() => check()}
+                    value="Check"
+                    className="btn m-auto mt-2 p-auto"
+                  /> */}
       {povList.map(pov => {
         return (
           <div className="m-4 p-4 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -508,7 +913,7 @@ export default function ViewPOV() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {parseFloat(pov.amt.toString()) / 10 ** 18} BnM
+                  {parseFloat(pov.amt.toString()) / 10 ** 6} USDC
                 </span>
                 {address?.toLowerCase()?.toString() != pov.creator.toString() ? (
                   <input

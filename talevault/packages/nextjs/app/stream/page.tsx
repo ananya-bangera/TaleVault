@@ -100,19 +100,8 @@ export default function DisplayPOV(context) {
     console.log(author);
     console.log(publisher);
     const strEther = "0.01";
-    const provider2 = new ethers.providers.Web3Provider(window.ethereum);
-    const providerRPC = {
-      moonbeam: {
-        name: 'moonbeam',
-        rpc: 'INSERT_RPC_API_ENDPOINT', // Insert your RPC URL here
-        chainId: 1284, // 0x504 in hex,
-      },
-    };
-    // 3. Create ethers provider
-    const provider = new ethers.JsonRpcProvider(providerRPC.moonbeam.rpc, {
-      chainId: providerRPC.moonbeam.chainId,
-      name: providerRPC.moonbeam.name,
-    });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    
     const gasfee=await provider.getGasPrice();
     const params = [
       {

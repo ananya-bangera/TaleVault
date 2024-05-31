@@ -76,6 +76,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      backgroundImage: {
+        'hero-img': "url('/bg-preview.svg')"
+      },
       boxShadow: {
         center: "0 0 12px -2px rgb(0 0 0 / 0.05)",
       },
