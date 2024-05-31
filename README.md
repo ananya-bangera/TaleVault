@@ -52,3 +52,32 @@ Thus the entire ecosystem is tied together using `Lens Protocol`
 2. Introducing decentralized crowdfunding and patronage mechanisms, allowing publishers to raise funds for their projects directly from their audience. This could foster a stronger connection between publishers and supporters, while providing an alternative funding model for creative projects.
 3. Looking into the technical aspects, right now the transactions are serially occuring but batching of all the transactions that needs to be triggered in one go can be enabled.
 4. Betting can be conducted by allowing multiple publishers to post content targeting to the same NFT(POV). The one which receives a higher amount of votes recieves a larger portion of the betting pool. This would develop a competitive atmosphere as well as better means to attract the crowd and get  a larger number of followers.
+
+## 🛠Project Setup
+
+To get TaleVault run locally, follow the steps below:
+
+1. Clone this repo & install dependencies
+
+```
+git clone https://github.com/ananya-bangera/TaleVault.git
+cd .\talevault\
+yarn
+cd .\packages\nextjs\
+yarn
+```
+
+2. Start your NextJS app:
+
+```
+yarn start
+```
+
+
+## 👩‍💻Contributors
+
+Team Members
+
+- [Sarvagnya Purohit](https://github.com/saRvaGnyA) 
+- [Ananya Bangera](https://github.com/ananya-bangera) 
+- [Harsh Nag](https://github.com/Jigsaw-23122002) 
